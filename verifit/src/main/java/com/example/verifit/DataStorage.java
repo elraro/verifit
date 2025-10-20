@@ -1,7 +1,6 @@
 package com.example.verifit;
 
 import static android.content.Context.MODE_PRIVATE;
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 import static com.example.verifit.ui.MainActivity.EXPORT_FILENAME;
 
@@ -579,7 +578,7 @@ public class DataStorage {
             else {
                 File root = new File(Environment.getExternalStorageDirectory()+File.separator+"DIRECTORY_NAME", "images");
                 File file = new File(root, fileName );
-                Log.d(TAG, "saveFile: file path - " + file.getAbsolutePath());
+                Log.d("DataStorage", "saveFile: file path - " + file.getAbsolutePath());
                 outputStream = new FileOutputStream(file);
             }
             outputStream.write("Date,Exercise,Category,Weight (kg),Reps,Comment\n".getBytes());
