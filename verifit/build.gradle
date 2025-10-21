@@ -42,9 +42,9 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.7.5'
     implementation 'androidx.navigation:navigation-ui:2.7.5'
 
-    // Fragment & Activity
+    // Fragment & Activity (Java 8 compatible versions)
     implementation 'androidx.fragment:fragment-ktx:1.6.2'
-    implementation 'androidx.activity:activity-ktx:1.8.0'
+    implementation 'androidx.activity:activity-ktx:1.7.2' // ✅ Downgraded to avoid Java 17 Jetifier error
 
     // Calendar View (JitPack)
     implementation 'com.applandeo:material-calendar-view:1.9.2'
