@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 34
-    buildToolsVersion "34.0.0"
+    buildToolsVersion "29.0.3" // ✅ Includes dx for legacy compatibility
 
     defaultConfig {
         applicationId "com.whatever.verifit"
@@ -55,7 +55,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.android.volley:volley:1.2.1'
 
-    // Multidex
+    // Multidex for API <21
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // Testing
