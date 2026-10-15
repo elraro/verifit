@@ -38,14 +38,14 @@ Verifit replaces the pencil-and-paper logbook. Its UI is inspired by FitNotes an
 ## Screenshots
 
 <p align="center">
-  <img width="200" src="metadata/screenshots/Screenshot2.png">
-  <img width="200" src="metadata/screenshots/Screenshot1.png">
-  <img width="200" src="metadata/screenshots/Screenshot3.png">
-  <img width="200" src="metadata/screenshots/Screenshot4.png">
-  <img width="200" src="metadata/screenshots/Screenshot5.png">
-  <img width="200" src="metadata/screenshots/Screenshot6.png">
-  <img width="200" src="metadata/screenshots/Screenshot7.png">
-  <img width="200" src="metadata/screenshots/Screenshot8.png">
+  <img width="200" src="metadata/screenshots/light-day.png">
+  <img width="200" src="metadata/screenshots/light-diary.png">
+  <img width="200" src="metadata/screenshots/light-exercise-graph.png">
+  <img width="200" src="metadata/screenshots/light-charts.png">
+  <img width="200" src="metadata/screenshots/dark-diary.png">
+  <img width="200" src="metadata/screenshots/dark-charts.png">
+  <img width="200" src="metadata/screenshots/dark-exercise-graph.png">
+  <img width="200" src="metadata/screenshots/dark-settings.png">
 </p>
 
 ## Install
@@ -84,12 +84,6 @@ Then enter its URL and credentials under **Settings → Webdav Settings**.
 - [Sardine](https://github.com/lookfirst/sardine) for WebDAV
 - [Gson](https://github.com/google/gson) for JSON
 - [Volley](https://github.com/google/volley) for networking
-
-## Roadmap
-
-- [x] Dark mode
-- [x] More detailed stats (customized per-exercise graphs)
-- [x] Free online accounts
 
 ## Contributing
 
