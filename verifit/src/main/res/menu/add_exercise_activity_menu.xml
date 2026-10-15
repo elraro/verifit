@@ -7,14 +7,14 @@
         android:id="@+id/history"
         android:icon="@drawable/ic_settings_backup_restore_24px"
         app:showAsAction="always"
-        app:iconTint="@color/cardview_light_background">
+        app:iconTint="@color/onToolbar">
     </item>
 
     <item
         android:id="@+id/graph"
         android:icon="@drawable/ic_poll_24px"
         app:showAsAction="always"
-        app:iconTint="@color/cardview_light_background">
+        app:iconTint="@color/onToolbar">
     </item>
 
 
@@ -22,7 +22,7 @@
         android:id="@+id/timer"
         android:icon="@drawable/ic_alarm_24px"
         app:showAsAction="always"
-        app:iconTint="@color/cardview_light_background">
+        app:iconTint="@color/onToolbar">
 
     </item>
 
@@ -30,7 +30,7 @@
         android:id="@+id/comment"
         android:icon="@drawable/ic_comment_24px"
         app:showAsAction="always"
-        app:iconTint="@color/cardview_light_background">
+        app:iconTint="@color/onToolbar">
 
     </item>
 

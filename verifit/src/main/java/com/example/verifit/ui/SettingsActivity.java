@@ -72,6 +72,14 @@ public class SettingsActivity extends AppCompatActivity {
 
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
+            Preference themePreference = findPreference("theme");
+            if (themePreference != null) {
+                themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    com.example.verifit.VerifitApplication.applyTheme((String) newValue);
+                    return true;
+                });
+            }
+
             Preference importwebdav = findPreference("importwebdav");
             Preference exportwebdav = findPreference("exportwebdav");
             Preference webdavurl = findPreference("webdavurl");
@@ -414,7 +422,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
             else if (key.equals("donate"))
             {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/donate/?hosted_button_id=YFZX88G8XDSN4"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://paypal.me/elraro"));
                 startActivity(browserIntent);
             }
             else if(key.equals("privacy_policy"))

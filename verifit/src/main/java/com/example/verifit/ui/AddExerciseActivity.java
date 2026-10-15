@@ -65,6 +65,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -823,6 +824,9 @@ public class AddExerciseActivity extends AppCompatActivity {
             ArrayList<Entry> volumeValues = new ArrayList<>();
             ArrayList<Entry> maxWeightValues = new ArrayList<>();
             ArrayList<Entry> totalRepsValues = new ArrayList<>();
+            ArrayList<Entry> oneRepMaxValues = new ArrayList<>();
+            ArrayList<Entry> setsValues = new ArrayList<>();
+            ArrayList<Entry> avgWeightValues = new ArrayList<>();
 
 
             ArrayList<String> workoutDates = new ArrayList<>();
@@ -841,6 +845,14 @@ public class AddExerciseActivity extends AppCompatActivity {
                         maxWeightValues.add(new Entry(x, currentExercise.getMaxWeight().floatValue()));
 
                         totalRepsValues.add(new Entry(x, currentExercise.getTotalReps().floatValue()));
+
+                        oneRepMaxValues.add(new Entry(x, currentExercise.getEstimatedOneRepMax().floatValue()));
+
+                        setsValues.add(new Entry(x, currentExercise.getSets().size()));
+
+                        // Average weight per rep across the session
+                        float totalReps = currentExercise.getTotalReps().floatValue();
+                        avgWeightValues.add(new Entry(x, totalReps > 0 ? currentExercise.getVolume().floatValue() / totalReps : 0f));
 
                         // Add the date corresponding to the data point
                         workoutDates.add(MainActivity.dataStorage.getWorkoutDays().get(i).getDate());
@@ -863,9 +875,19 @@ public class AddExerciseActivity extends AppCompatActivity {
             }
 
 
+            // Series available to the graph, keyed by the metric spinner option
+            LinkedHashMap<String, ArrayList<Entry>> series = new LinkedHashMap<>();
+            series.put("Volume", volumeValues);
+            series.put("Weight", maxWeightValues);
+            series.put("Reps", totalRepsValues);
+            series.put("Est. 1RM", oneRepMaxValues);
+            series.put("Sets", setsValues);
+            series.put("Avg weight", avgWeightValues);
+            TextView summary = view.findViewById(R.id.tv_graph_summary);
+
             // Chart Data Spinner
             Spinner graph_value_spinner = view.findViewById(R.id.graph_spinner);
-            String[] graph_value_spinner_options = {"Volume", "Weight", "Reps"};
+            String[] graph_value_spinner_options = {"Volume", "Weight", "Reps", "Est. 1RM", "Sets", "Avg weight"};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, graph_value_spinner_options);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             graph_value_spinner.setAdapter(adapter);
@@ -887,7 +909,7 @@ public class AddExerciseActivity extends AppCompatActivity {
                     String selectedOption1 = graph_time_spinner.getSelectedItem().toString();
                     String selectedOption2 = graph_value_spinner_options[i];
 
-                    setupChartWithOptions(selectedOption1, selectedOption2, volumeValues, maxWeightValues,totalRepsValues, workoutDates, workoutMonths, alertDialog, lineChart);
+                    setupChartWithOptions(selectedOption1, selectedOption2, series, workoutDates, workoutMonths, alertDialog, lineChart, summary);
                 }
 
                 @Override
@@ -903,7 +925,7 @@ public class AddExerciseActivity extends AppCompatActivity {
                     String selectedOption1 = graph_time_spinner_options[i];
                     String selectedOption2 = graph_value_spinner.getSelectedItem().toString();
 
-                    setupChartWithOptions(selectedOption1, selectedOption2, volumeValues, maxWeightValues,totalRepsValues, workoutDates, workoutMonths, alertDialog, lineChart);
+                    setupChartWithOptions(selectedOption1, selectedOption2, series, workoutDates, workoutMonths, alertDialog, lineChart, summary);
                 }
 
                 @Override
@@ -972,59 +994,45 @@ public class AddExerciseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupChartWithOptions(String selectedOption1, String selectedOption2, ArrayList<Entry> volumeValues, ArrayList<Entry> maxWeightValues,ArrayList<Entry> totalRepsValues, ArrayList<String> workoutDates, ArrayList<String> workoutMonths, AlertDialog alertDialog, LineChart lineChart){
-        String label = new String();
-        ArrayList<Entry> actualValues = new ArrayList<>();
-        ArrayList<Entry> finalValues = new ArrayList<>();
+    private void setupChartWithOptions(String selectedTime, String selectedMetric, LinkedHashMap<String, ArrayList<Entry>> series, ArrayList<String> workoutDates, ArrayList<String> workoutMonths, AlertDialog alertDialog, LineChart lineChart, TextView summary){
+        ArrayList<Entry> actualValues = series.get(selectedMetric);
+        String label = "kg";
+        if(selectedMetric.equals("Reps")) label = "reps";
+        else if(selectedMetric.equals("Sets")) label = "sets";
 
+        int index = 0;
+        if(selectedTime.equals("Last Year")) index = getIndexOfLastXMonths(workoutDates, 12);
+        else if(selectedTime.equals("6 months")) index = getIndexOfLastXMonths(workoutDates, 6);
+        else if(selectedTime.equals("3 months")) index = getIndexOfLastXMonths(workoutDates, 3);
+        else if(selectedTime.equals("1 month")) index = getIndexOfLastXMonths(workoutDates, 1);
 
-        if(selectedOption2.equals("Weight"))
-        {
-            actualValues = maxWeightValues;
-            label = "kg";
-        }
-        else if(selectedOption2.equals("Volume"))
-        {
-            actualValues = volumeValues;
-            label = "kg";
-        }
-        else if(selectedOption2.equals("Reps"))
-        {
-            actualValues = totalRepsValues;
-            label = "reps";
-        }
-
-        int index = -1;
-
-        if(selectedOption1.equals("All Time"))
-        {
-            index = 0;
-        }
-        else if(selectedOption1.equals("Last Year"))
-        {
-            index = getIndexOfLastXMonths(workoutDates, 12);
-        }
-        else if(selectedOption1.equals("6 months"))
-        {
-            index = getIndexOfLastXMonths(workoutDates, 6);
-        }
-        else if(selectedOption1.equals("3 months"))
-        {
-            index = getIndexOfLastXMonths(workoutDates, 3);
-        }
-        else if(selectedOption1.equals("1 month"))
-        {
-            index = getIndexOfLastXMonths(workoutDates, 1);
-        }
-
-        // Show all
+        // No sessions in the selected range
         if(index == -1)
         {
             index = actualValues.size();
         }
 
-        finalValues = new ArrayList<>(actualValues.subList(index, actualValues.size()));
-        setupLineChart(alertDialog, finalValues , lineChart, workoutMonths, workoutDates, label, true);
+        ArrayList<Entry> finalValues = new ArrayList<>(actualValues.subList(index, actualValues.size()));
+        setupLineChart(alertDialog, finalValues, lineChart, workoutMonths, workoutDates, label, true);
+        showGraphSummary(summary, finalValues, label);
+    }
+
+    // Sessions, best, average and change over the selected range
+    private void showGraphSummary(TextView summary, ArrayList<Entry> values, String unit) {
+        if (values.isEmpty()) {
+            summary.setText("No sessions in this range");
+            return;
+        }
+        float best = Float.NEGATIVE_INFINITY, sum = 0;
+        for (Entry e : values) {
+            best = Math.max(best, e.getY());
+            sum += e.getY();
+        }
+        float first = values.get(0).getY();
+        float last = values.get(values.size() - 1).getY();
+        String change = first == 0 ? "-" : String.format(Locale.US, "%+.1f%%", (last - first) / first * 100f);
+        summary.setText(String.format(Locale.US, "Sessions: %d   Best: %.1f %s\nAverage: %.1f %s   Latest: %.1f %s   Change: %s",
+                values.size(), best, unit, sum / values.size(), unit, last, unit, change));
     }
 
     private int getIndexOfLastXMonths(ArrayList<String> workoutDates, int months){
@@ -1139,7 +1147,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         volumeSet.setCircleRadius(2f);
         volumeSet.setCircleHoleColor(ContextCompat.getColor(AddExerciseActivity.this, R.color.colorPrimary));
         volumeSet.setValueTextSize(10f);
-        volumeSet.setValueTextColor(Color.BLACK);
+        volumeSet.setValueTextColor(ContextCompat.getColor(AddExerciseActivity.this, R.color.core_black));
 //        volumeSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         // Remove circles around data points
         volumeSet.setDrawCircles(true);
@@ -1158,7 +1166,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         // Enable horizontal grid lines
         lineChart.getAxisLeft().setDrawGridLines(true);
-        lineChart.getAxisLeft().setGridColor(Color.LTGRAY);
+        lineChart.getAxisLeft().setGridColor(ContextCompat.getColor(AddExerciseActivity.this, R.color.core_grey_20));
         lineChart.getAxisLeft().setGridLineWidth(1f);
 
 
@@ -1170,6 +1178,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         lineChart.getAxisLeft().setEnabled(true);
         lineChart.getAxisLeft().setTextSize(0f);
         lineChart.getXAxis().setEnabled(true);
+        lineChart.getXAxis().setTextColor(ContextCompat.getColor(AddExerciseActivity.this, R.color.core_black));
 
         // Set the custom X-axis value formatter
         XAxis xAxis = lineChart.getXAxis();
@@ -1209,7 +1218,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         legend.setXOffset(30f); // Adjust this value to move the legend horizontally
         legend.setYOffset(-270); // Adjust this value to move the legend vertically
         legend.setTextSize(12f);
-        legend.setTextColor(Color.BLACK);
+        legend.setTextColor(ContextCompat.getColor(AddExerciseActivity.this, R.color.core_black));
         legend.setForm(Legend.LegendForm.LINE);
         legend.setFormLineWidth(3f);
         legend.setFormSize(14f);
@@ -1260,7 +1269,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         layoutParams.width = customWidth;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(AddExerciseActivity.this, R.color.core_white)));
 
 
         // Show the dialog

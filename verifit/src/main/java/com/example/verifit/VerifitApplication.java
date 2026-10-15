@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,6 +19,7 @@ public class VerifitApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        applyTheme(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "system"));
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityPostCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
@@ -38,5 +41,18 @@ public class VerifitApplication extends Application {
             @Override public void onActivitySaveInstanceState(@NonNull Activity a, @NonNull Bundle b) {}
             @Override public void onActivityDestroyed(@NonNull Activity a) {}
         });
+    }
+
+    public static void applyTheme(String theme) {
+        switch (theme) {
+            case "light":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case "dark":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            default:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
     }
 }

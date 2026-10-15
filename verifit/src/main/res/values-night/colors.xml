@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3d9ee0</color>
+    <color name="colorPrimaryLight">#00aeef</color>
+    <color name="colorPrimaryDark">#0b2a40</color>
+    <color name="colorAccent">#e0e0e0</color>
+
+    <color name="almostWhite">#2a2a2a</color>
+    <color name="core_white">#1e1e1e</color>
+    <color name="core_black">#ececec</color>
+    <color name="core_grey_02">#242424</color>
+    <color name="core_grey_05">#121212</color>
+    <color name="core_grey_10">#2c2c2c</color>
+    <color name="core_grey_20">#3a3a3a</color>
+    <color name="core_grey_30">#505050</color>
+    <color name="core_grey_40">#8a8a8a</color>
+    <color name="core_grey_55">#a8a8a8</color>
+
+    <color name="cardview_light_background">#1e1e1e</color>
+</resources>

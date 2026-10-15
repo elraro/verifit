@@ -1,64 +1,104 @@
-## Verifit
-<img width="100" src="/metadata/logo/icon.svg">
-Verifit is a simple minimalist fitness tracker that I made mainly for myself. The UI is heavily inspired by FitNotes. It's purpose is to replace the traditional paper and pencil method for tracking progressive overload. Since I made this with the primary user in mind being myself, it is not fully featured yet, but I do have future plans for adding extra features over time. This is my first attempt so suggestions and code improvements are always welcome.
+<h1 align="center">
+  <img width="96" src="metadata/logo/icon.svg" alt="Verifit logo"><br>
+  Verifit
+</h1>
 
-## Why another fitness tracker?
-Verifit stands out as a fitness workout tracker app that prioritizes user freedom and simplicity above all. Unlike its competitors, Verifit is open-source, allowing for community-driven improvements and adaptability. This ad-free app also provides the convenience of both offline usage and the option to host on your own server, ensuring data privacy and control. Moreover, Verifit's online account and seamless export/import of workout data enable smooth transitions between different usage modes. At its core, Verifit is committed to simplicity, with a clean design that focuses on performing a single task exceptionally well, rather than juggling multiple features.
+<p align="center">
+  <b>A simple, minimalist, open-source workout tracker for progressive overload.</b><br>
+  No ads. No tracking. Works offline. Your data stays yours.
+</p>
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
-      alt="Download from Google Play"
-      height="80">](https://play.google.com/store/apps/details?id=com.whatever.verifit)
+<p align="center">
+  <a href="https://github.com/elraro/verifit/actions/workflows/android-build.yaml"><img alt="Build" src="https://github.com/elraro/verifit/actions/workflows/android-build.yaml/badge.svg"></a>
+  <a href="LICENSE"><img alt="License: GPL v3" src="https://img.shields.io/badge/license-GPLv3-blue.svg"></a>
+  <img alt="Min SDK 24" src="https://img.shields.io/badge/minSdk-24-brightgreen.svg">
+  <img alt="Target SDK 36" src="https://img.shields.io/badge/targetSdk-36-brightgreen.svg">
+</p>
 
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
-alt="Download from Izzy Droid"
-height="80">](https://apt.izzysoft.de/fdroid/index/apk/com.whatever.verifit)
+## Why Verifit?
+
+Verifit replaces the pencil-and-paper logbook. Its UI is inspired by FitNotes and focuses on doing one thing well: logging sets and showing whether you are getting stronger.
+
+- **Open source and ad-free**, so the community can improve it.
+- **Offline first**, with optional backups to your own WebDAV server.
+- **Simple import/export** of your workout data as CSV, so moving between devices or apps is painless.
 
 ## Features
-* Exercise tracking
-* Create custom exercises
-* Create exercise comments
-* Edit, delete exercises
-* Free online account option.
-* Import & export from/to phone storage
-* Import & export from/to webdav server
-* Automatic backups to webdav server
-* Basic analysis of workout data
-* Visualization of workout data
-* Volume, actual 1RM, estimated 1RM, and other stats tracking
-* Includes simple rest timer
 
-## Planned features
-* Dark Mode
-* More detailed stats (e.g. customized per exercise graphs)
-* ~~Free Online Accounts~~
+| | |
+|---|---|
+| **Tracking** | Log sets, reps and weight; create custom exercises; add exercise comments; edit or delete anything |
+| **Stats** | Volume, actual 1RM, estimated 1RM, personal records, sets per week and more |
+| **Per-exercise graphs** | Pick a metric (volume, weight, reps, estimated 1RM, sets, average weight) and a time range, and see best, average, latest and % change |
+| **Charts** | Workouts per year, body-part and exercise distribution |
+| **Dark mode** | Follows the system theme, or force light or dark in Settings |
+| **Backups** | Import and export from phone storage or a WebDAV server, with automatic WebDAV backups |
+| **Extras** | Rest timer and plate calculator |
 
 ## Screenshots
-<img width="200" src="/metadata/screenshots/Screenshot2.png"> <img width="200" src="/metadata/screenshots/Screenshot1.png"> <img width="200" src="/metadata/screenshots/Screenshot3.png"> <img width="200" src="/metadata/screenshots/Screenshot4.png">
-<img width="200" src="/metadata/screenshots/Screenshot5.png"> <img width="200" src="/metadata/screenshots/Screenshot6.png"> <img width="200" src="/metadata/screenshots/Screenshot7.png"> <img width="200" src="/metadata/screenshots/Screenshot8.png">
 
-## Libraries Used
-* [MPAndroid Chart](https://github.com/PhilJay/MPAndroidChart) for displaying charts
-* [Sardine](https://github.com/lookfirst/sardine) for webdav requests
-* [Gson](https://github.com/google/gson) for Json parsing and serialization
+<p align="center">
+  <img width="200" src="metadata/screenshots/Screenshot2.png">
+  <img width="200" src="metadata/screenshots/Screenshot1.png">
+  <img width="200" src="metadata/screenshots/Screenshot3.png">
+  <img width="200" src="metadata/screenshots/Screenshot4.png">
+  <img width="200" src="metadata/screenshots/Screenshot5.png">
+  <img width="200" src="metadata/screenshots/Screenshot6.png">
+  <img width="200" src="metadata/screenshots/Screenshot7.png">
+  <img width="200" src="metadata/screenshots/Screenshot8.png">
+</p>
 
-## Setting up a webdav server
+## Install
+
+Grab the latest APK from the [Releases](https://github.com/elraro/verifit/releases) page, or build it yourself (see below).
+
+## Build from source
+
+You need JDK 17 or newer (21 recommended) and the Android SDK (platform 36).
+
 ```bash
-sudo apt install docker
-docker run -d -p 80:80 -v /data/webdav:/var/lib/dav -e USERNAME=user -e PASSWORD=password bytemark/webdav
+git clone https://github.com/elraro/verifit.git
+cd verifit
+echo "sdk.dir=/path/to/Android/Sdk" > local.properties
+./gradlew :verifit:assembleDebug
 ```
 
+The APK is written to `verifit/build/outputs/apk/debug/`.
 
+Pushing a tag such as `v1.0.15` makes the GitHub Actions workflow build the app and publish a release.
 
-## Donations
-### Donate with Monero
+## Set up a WebDAV server
 
-42uCPZuxsSS3FNNx6RMDAMVmHVwYBfg3JVMuPKMwadeEfwyykFLkwAH8j4B12ziU7PBCMjLwpPbbDgBw45N4wMpsM3Dy7is
+Any WebDAV server works. For a quick local one:
 
- <img width="200" src="/verifit/src/main/res/drawable/xmr.png">
+```bash
+docker run -d -p 80:80 -v /data/webdav:/var/lib/dav \
+  -e USERNAME=user -e PASSWORD=password bytemark/webdav
+```
 
+Then enter its URL and credentials under **Settings → Webdav Settings**.
 
-### Donate with Paypal
-[<img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png"
-alt="Donate with paypal"
-height="80">](https://www.paypal.com/donate/?hosted_button_id=YFZX88G8XDSN4)
+## Built with
 
+- [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) for charts
+- [Sardine](https://github.com/lookfirst/sardine) for WebDAV
+- [Gson](https://github.com/google/gson) for JSON
+- [Volley](https://github.com/google/volley) for networking
+
+## Roadmap
+
+- [x] Dark mode
+- [x] More detailed stats (customized per-exercise graphs)
+- [x] Free online accounts
+
+## Contributing
+
+Suggestions, bug reports and pull requests are welcome. Open an issue to discuss bigger changes first.
+
+## Donate
+
+If you enjoy Verifit, you can support its development with a [PayPal donation](https://paypal.me/elraro). Thank you!
+
+## License
+
+Released under the [GNU General Public License v3.0](LICENSE).

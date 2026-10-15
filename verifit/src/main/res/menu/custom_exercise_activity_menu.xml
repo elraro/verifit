@@ -7,7 +7,7 @@
         android:id="@+id/save"
         android:icon="@drawable/ic_check_24px"
         app:showAsAction="always"
-        app:iconTint="@color/cardview_light_background"
+        app:iconTint="@color/onToolbar"
         android:title="Save">
     </item>
 

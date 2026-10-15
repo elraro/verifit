@@ -6,14 +6,14 @@
         android:id="@+id/home"
         android:icon="@drawable/ic_today_24px"
         app:showAsAction="always"
-        app:iconTint="@color/cardview_light_background">
+        app:iconTint="@color/onToolbar">
     </item>
 
 <!--    <item-->
 <!--        android:id="@+id/account"-->
 <!--        android:icon="@drawable/ic_account_circle_24px"-->
 <!--        app:showAsAction="always"-->
-<!--        app:iconTint="@color/cardview_light_background">-->
+<!--        app:iconTint="@color/onToolbar">-->
 <!--    </item>-->
 
 

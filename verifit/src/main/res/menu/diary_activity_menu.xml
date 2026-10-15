@@ -8,7 +8,7 @@
 <!--        android:title="Search"-->
 <!--        android:icon="@drawable/ic_search_24px"-->
 <!--        app:showAsAction="always"-->
-<!--        app:iconTint="@color/cardview_light_background">-->
+<!--        app:iconTint="@color/onToolbar">-->
 <!--    </item>-->
 
 </menu>

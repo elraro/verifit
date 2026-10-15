@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_search_24px"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:iconTint="@color/cardview_light_background">
+        app:iconTint="@color/onToolbar">
     </item>
 
     <item
@@ -17,7 +17,7 @@
         android:title="Add"
         android:icon="@drawable/ic_brush_24px"
         app:showAsAction="always"
-        app:iconTint="@color/cardview_light_background">
+        app:iconTint="@color/onToolbar">
 
     </item>
 

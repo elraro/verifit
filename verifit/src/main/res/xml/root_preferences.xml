@@ -105,11 +105,13 @@
 
     <PreferenceCategory app:title="General">
 
-<!--        <Preference-->
-<!--            app:key="theme"-->
-<!--            app:summary="Light"-->
-<!--            app:title="Theme"-->
-<!--            app:useSimpleSummaryProvider="false" />-->
+<ListPreference
+            app:defaultValue="system"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:key="theme"
+            app:title="Theme"
+            app:useSimpleSummaryProvider="true" />
 
         <Preference
             app:key="github"

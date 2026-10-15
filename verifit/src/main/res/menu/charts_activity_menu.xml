@@ -6,7 +6,7 @@
         android:id="@+id/personal_records"
         android:title="Personal Records"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:iconTint="@color/cardview_light_background">
+        app:iconTint="@color/onToolbar">
     </item>
 
 </menu>

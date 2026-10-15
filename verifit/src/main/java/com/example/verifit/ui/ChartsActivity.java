@@ -131,6 +131,8 @@ public class ChartsActivity extends AppCompatActivity implements BottomNavigatio
         BarDataSet barDataSet = new BarDataSet(workouts_pruned,"Workouts");
         barDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
 
+        barChart.getXAxis().setTextColor(getColor(R.color.core_black));
+        barChart.getAxisLeft().setTextColor(getColor(R.color.core_black));
         barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(workoutDates));
 
         // Profit
@@ -182,7 +184,7 @@ public class ChartsActivity extends AppCompatActivity implements BottomNavigatio
         pieChart.setExtraOffsets(5,10,5,5);
         pieChart.setDragDecelerationFrictionCoef(0.95f);
         pieChart.setDrawHoleEnabled(false);
-        pieChart.setHoleColor(Color.WHITE);
+        pieChart.setHoleColor(getColor(R.color.core_white));
         pieChart.setTransparentCircleRadius(60f);
 
         ArrayList<PieEntry> yValues = new ArrayList<>();
@@ -257,7 +259,7 @@ public class ChartsActivity extends AppCompatActivity implements BottomNavigatio
         pieChart.setExtraOffsets(5,10,5,5);
         pieChart.setDragDecelerationFrictionCoef(0.95f);
         pieChart.setDrawHoleEnabled(false);
-        pieChart.setHoleColor(Color.WHITE);
+        pieChart.setHoleColor(getColor(R.color.core_white));
         pieChart.setTransparentCircleRadius(60f);
 
         ArrayList<PieEntry> yValues = new ArrayList<>();
@@ -357,7 +359,7 @@ public class ChartsActivity extends AppCompatActivity implements BottomNavigatio
         pieChart.setExtraOffsets(5,10,5,5);
         pieChart.setDragDecelerationFrictionCoef(0.95f);
         pieChart.setDrawHoleEnabled(false);
-        pieChart.setHoleColor(Color.WHITE);
+        pieChart.setHoleColor(getColor(R.color.core_white));
         pieChart.setTransparentCircleRadius(60f);
 
         ArrayList<PieEntry> yValues = new ArrayList<>();
