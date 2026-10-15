@@ -205,12 +205,11 @@ public class SettingsActivity extends AppCompatActivity {
             // User is not logged in
             if(sharedPreferences.isOfflineMode())
             {
-                verifit_rs_import.setVisible(false);
-                verifit_rs_export.setVisible(false);
-                verifit_rs_delete_all.setVisible(false);
-
-                verifit_rs_login_signup_logout.setTitle("Login/Sign Up");
-                verifit_rs_login_signup_logout.setSummary("Login or create a free account");
+                // Accounts are no longer offered; the Account section only shows for users who are still logged in
+                Preference accountCategory = findPreference("account_category");
+                if (accountCategory != null) {
+                    accountCategory.setVisible(false);
+                }
             }
             else
             {
@@ -413,7 +412,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
             else if (key.equals("github"))
             {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MakisChristou/verifit"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/elraro/verifit"));
                 startActivity(browserIntent);
             }
             else if (key.equals("version"))
@@ -433,11 +432,6 @@ public class SettingsActivity extends AppCompatActivity {
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setView(view).create();
 
                 alertDialog.show();
-            }
-            else if(key.equals("reddit"))
-            {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.reddit.com/r/verifitApp/"));
-                startActivity(browserIntent);
             }
             else if (key.equals("licence"))
             {
