@@ -30,7 +30,6 @@ import com.example.verifit.model.WorkoutSet;
 import com.example.verifit.adapters.ViewPagerWorkoutDayAdapter;
 import com.example.verifit.adapters.WebdavAdapter;
 import com.example.verifit.model.WorkoutDay;
-import com.example.verifit.verifitrs.WorkoutSetsApi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -183,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         String whatToDo = in.getStringExtra("doit");
 
-        String message = in.getStringExtra("message");
 
         // If Intent coming from settings activity
         if(whatToDo != null)
@@ -218,108 +216,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // No intent
         else
         {
-            // Offline / Webdav Mode
-            com.example.verifit.SharedPreferences sharedPreferences = new com.example.verifit.SharedPreferences(getApplicationContext());
-
-            if(sharedPreferences.isOfflineMode())
-            {
-                sharedPreferences.save("offline", "mode");
-                dataStorage.loadWorkoutData(getApplicationContext());
-                dataStorage.loadKnownExercisesData(getApplicationContext());
-                initViewPager();
-            }
-            // Caching: Update screen with local data
-            else if(dataStorage.getWorkoutDays().size() > 0 && sharedPreferences.shouldUseCache())
-            {
-                initViewPager();
-            }
-            // Fetch data from Rest API and then update screen
-            else
-            {
-                // Cloud Mode
-                WorkoutSetsApi workoutSetsApi = new WorkoutSetsApi(getApplicationContext(), getString(R.string.API_ENDPOINT));
-                workoutSetsApi.getAllWorkoutSets(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-
-                        sharedPreferences.enableOfflineMode();
-
-                        // Show error
-                        runOnUiThread(() -> {
-                            initViewPager();
-                            SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(MainActivity.this);
-                            snackBarWithMessage.showSnackbar("Can't connect to server");
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(Call call, okhttp3.Response response) throws IOException
-                    {
-                        if (200 == response.code())
-                        {
-                            String jsonString = response.body().string();
-                            Gson gson = new Gson();
-                            Type listType = new TypeToken<ArrayList<WorkoutSet>>() {}.getType();
-                            ArrayList<WorkoutSet> sets = gson.fromJson(jsonString, listType);
-
-                            MainActivity.dataStorage.readFromSets(sets, getApplicationContext());
-
-                            // Data loaded successfully, enable caching from now on
-                            sharedPreferences.enableCaching();
-
-                            runOnUiThread(() -> {
-                                initViewPager();
-                            });
-                        }
-                        else
-                        {
-                            // If logged out login again
-                            if(response.message().equals("Unauthorized"))
-                            {
-                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                            }
-                            else if(response.message().equals("Bad Gateway"))
-                            {
-                                sharedPreferences.enableOfflineMode();
-                                runOnUiThread(() -> {
-                                    initViewPager();
-                                });
-                            }
-                            else
-                            {
-                                sharedPreferences.enableOfflineMode();
-                            }
-
-                            runOnUiThread(() -> {
-                                SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(MainActivity.this);
-                                snackBarWithMessage.showSnackbar(response.message().toString());
-                            });
-                        }
-                    }
-                });
-            }
-        }
-        // Display login/logout messages
-        if(message != null)
-        {
-            if(message.equals("verifit_rs_login"))
-            {
-                SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(MainActivity.this);
-                snackBarWithMessage.showSnackbar("Welcome back");
-            }
-            else if(message.equals("verifit_rs_logout"))
-            {
-                SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(MainActivity.this);
-                snackBarWithMessage.showSnackbar("Logged out");
-            }
-            else if(message.equals("verifit_rs_signup"))
-            {
-                com.example.verifit.SharedPreferences sharedPreferences = new com.example.verifit.SharedPreferences(getApplicationContext());
-                String email = sharedPreferences.load("verifit_rs_username");
-                SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(MainActivity.this);
-                snackBarWithMessage.showSnackbar("Account created for " + email);
-            }
+            dataStorage.loadWorkoutData(getApplicationContext());
+            dataStorage.loadKnownExercisesData(getApplicationContext());
+            initViewPager();
         }
     }
 

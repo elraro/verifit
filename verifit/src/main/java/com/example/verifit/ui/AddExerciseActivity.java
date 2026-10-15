@@ -45,7 +45,6 @@ import com.example.verifit.R;
 import com.example.verifit.model.WorkoutDay;
 import com.example.verifit.model.WorkoutExercise;
 import com.example.verifit.model.WorkoutSet;
-import com.example.verifit.verifitrs.WorkoutSetsApi;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -220,83 +219,16 @@ public class AddExerciseActivity extends AppCompatActivity {
 
 
                         // Offline
-                        if(sharedPreferences.isOfflineMode())
                         {
                             addSetExistingWorkoutDay(workoutSet, position);
-                        }
-                        else
-                        {
-                            final LoadingDialog loadingDialog = new LoadingDialog(AddExerciseActivity.this);
-                            loadingDialog.loadingAlertDialog();
-
-                            WorkoutSetsApi workoutSetsApi = new WorkoutSetsApi(getApplicationContext(), getString(R.string.API_ENDPOINT));
-                            workoutSetsApi.postWorkoutSet(workoutSet, new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
-                                    loadingDialog.dismissDialog();
-                                    showSnackbarMessage(e.toString());
-                                }
-
-                                @Override
-                                public void onResponse(Call call, okhttp3.Response response) throws IOException {
-
-                                    loadingDialog.dismissDialog();
-
-                                    if (200 == response.code())
-                                    {
-                                        Integer set_id = getSetIdFromResponse(response);
-                                        workoutSet.setId(set_id);
-                                        addSetExistingWorkoutDay(workoutSet, position);
-                                    }
-                                    else
-                                    {
-                                        showSnackbarMessage(response.message().toString());
-                                    }
-                                }
-                            });
                         }
                     }
                     // If not construct new workout day
                     else
                     {
                         // Offline
-                        if(sharedPreferences.isOfflineMode())
                         {
                             addSetNewWorkoutDay(workoutSet);
-                        }
-                        else
-                        {
-                            final LoadingDialog loadingDialog = new LoadingDialog(AddExerciseActivity.this);
-                            loadingDialog.loadingAlertDialog();
-
-                            WorkoutSetsApi workoutSetsApi = new WorkoutSetsApi(getApplicationContext(), getString(R.string.API_ENDPOINT));
-                            workoutSetsApi.postWorkoutSet(workoutSet, new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
-                                    // Show error
-                                    loadingDialog.dismissDialog();
-                                    showSnackbarMessage(e.toString());
-                                }
-
-                                @Override
-                                public void onResponse(Call call, okhttp3.Response response) throws IOException {
-
-                                    loadingDialog.dismissDialog();
-
-                                    if (200 == response.code())
-                                    {
-                                        Integer set_id = getSetIdFromResponse(response);
-                                        workoutSet.setId(set_id);
-                                        addSetNewWorkoutDay(workoutSet);
-                                    }
-                                    else
-                                    {
-                                        runOnUiThread(()->{
-                                            showSnackbarMessage(response.message());
-                                        });
-                                    }
-                                }
-                            });
                         }
                     }
                 }
@@ -335,39 +267,8 @@ public class AddExerciseActivity extends AppCompatActivity {
                         set.setReps(reps);
                         set.setWeight(weight);
 
-                        if(sharedPreferences.isOfflineMode())
                         {
                             updateSet(finalI, finalJ, reps, weight);
-                        }
-                        else
-                        {
-                            final LoadingDialog loadingDialog = new LoadingDialog(AddExerciseActivity.this);
-                            loadingDialog.loadingAlertDialog();
-
-                            WorkoutSetsApi workoutSetsApi = new WorkoutSetsApi(getApplicationContext(), getString(R.string.API_ENDPOINT));
-                            workoutSetsApi.updateWorkoutSet(set, new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e)
-                                {
-                                    loadingDialog.dismissDialog();
-                                    showSnackbarMessage(e.toString());
-                                }
-
-                                @Override
-                                public void onResponse(Call call, okhttp3.Response response) throws IOException {
-
-                                    loadingDialog.dismissDialog();
-
-                                    if (200 == response.code())
-                                    {
-                                        updateSet(finalI, finalJ, reps, weight);
-                                    }
-                                    else
-                                    {
-                                        showSnackbarMessage(response.message().toString());
-                                    }
-                                }
-                            });
                         }
                         break;
                     }
@@ -489,48 +390,9 @@ public class AddExerciseActivity extends AppCompatActivity {
                     {
                         final int finalI = i;
 
-                        if(sharedPreferences.isOfflineMode())
                         {
                             deleteSetLogic(ct, finalI, to_be_removed_set);
                             alertDialog.dismiss();
-                        }
-                        else
-                        {
-                            final LoadingDialog loadingDialog = new LoadingDialog((Activity) ct);
-                            loadingDialog.loadingAlertDialog();
-
-                            WorkoutSetsApi workoutSetsApi = new WorkoutSetsApi(ct, ct.getString(R.string.API_ENDPOINT));
-                            workoutSetsApi.deleteWorkoutSet(to_be_removed_set, new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
-                                    // Show error
-                                    ((Activity) ct).runOnUiThread(() -> {
-                                        loadingDialog.dismissDialog();
-                                        alertDialog.dismiss();
-                                        SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(((Activity) ct));
-                                        snackBarWithMessage.showSnackbar("Can't connect to server");
-                                    });
-                                }
-
-                                @Override
-                                public void onResponse(Call call, okhttp3.Response response) throws IOException {
-
-                                    loadingDialog.dismissDialog();
-                                    alertDialog.dismiss();
-
-                                    if (200 == response.code())
-                                    {
-                                        deleteSetLogic(ct, finalI, to_be_removed_set);
-                                    }
-                                    else
-                                    {
-                                        ((Activity) ct).runOnUiThread(() -> {
-                                            SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(((Activity) ct));
-                                            snackBarWithMessage.showSnackbar(response.message().toString());
-                                        });
-                                    }
-                                }
-                            });
                         }
                         break;
                     }
@@ -1434,42 +1296,9 @@ public class AddExerciseActivity extends AppCompatActivity {
             WorkoutSet set_to_be_updated = MainActivity.dataStorage.getWorkoutDays().get(day_position).getExercises().get(exercise_position).getSets().get(i);
             set_to_be_updated.setComment(comment);
 
-            if(sharedPreferences.isOfflineMode())
             {
                 updateCommentInSet(day_position, exercise_position, finalI, finalSize, comment);
                 alertDialog.dismiss();
-            }
-            else
-            {
-                final LoadingDialog loadingDialog = new LoadingDialog(AddExerciseActivity.this);
-                loadingDialog.loadingAlertDialog();
-
-                WorkoutSetsApi workoutSetsApi = new WorkoutSetsApi(getApplicationContext(), getString(R.string.API_ENDPOINT));
-                workoutSetsApi.updateWorkoutSet(set_to_be_updated, new Callback() {
-                    @Override
-                    public void onFailure(@NonNull Call call, @NonNull IOException e)
-                    {
-                        loadingDialog.dismissDialog();
-                        alertDialog.dismiss();
-                        showSnackbarMessage(e.toString());
-                    }
-
-                    @Override
-                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                        loadingDialog.dismissDialog();
-                        alertDialog.dismiss();
-
-                        if(200 == response.code())
-                        {
-                            updateCommentInSet(day_position, exercise_position, finalI, finalSize, comment);
-
-                        }
-                        else
-                        {
-                            showSnackbarMessage(response.message().toString());
-                        }
-                    }
-                });
             }
         }
     }

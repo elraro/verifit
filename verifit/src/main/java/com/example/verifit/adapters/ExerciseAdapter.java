@@ -29,9 +29,7 @@ import com.example.verifit.model.Exercise;
 import com.example.verifit.R;
 import com.example.verifit.model.WorkoutSet;
 import com.example.verifit.ui.AddExerciseActivity;
-import com.example.verifit.ui.LoginActivity;
 import com.example.verifit.ui.MainActivity;
-import com.example.verifit.verifitrs.WorkoutSetsApi;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -268,53 +266,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.MyView
                         if(new_exercise_category != null && !new_exercise_category.isEmpty() && new_exercise_category.length() > 0 && new_exercise_name != null && !new_exercise_name.isEmpty() && new_exercise_name.length() > 0)
                         {
                             SharedPreferences sharedPreferences = new SharedPreferences(ct);
-                            if(sharedPreferences.isOfflineMode()) {
+                            {
                                 locallyUpdateExercise(new_exercise_name);
                                 alertDialog.dismiss();
-                            }
-                            else
-                            {
-
-                                final LoadingDialog loadingDialog = new LoadingDialog((Activity) ct);
-                                loadingDialog.loadingAlertDialog();
-
-                                List<WorkoutSet> to_be_updated_sets = MainActivity.dataStorage.editExerciseGetSets(exercise_name,new_exercise_name,new_exercise_category);
-                                WorkoutSetsApi workoutSetsApi = new WorkoutSetsApi(ct, ct.getString(R.string.API_ENDPOINT));
-                                workoutSetsApi.updateWorkoutSets(to_be_updated_sets, new Callback() {
-                                    @Override
-                                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                        ((Activity) ct).runOnUiThread(() -> {
-                                            alertDialog.dismiss();
-                                            loadingDialog.dismissDialog();
-                                            SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(ct);
-                                            snackBarWithMessage.showSnackbar("Can't connect to server");
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                                        System.out.println(response.toString());
-
-                                        ((Activity) ct).runOnUiThread(() -> {
-                                            alertDialog.dismiss();
-                                            loadingDialog.dismissDialog();
-                                        });
-
-                                        if(200 == response.code())
-                                        {
-                                            ((Activity) ct).runOnUiThread(() -> {
-                                                locallyUpdateExercise(new_exercise_name);
-                                                SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(ct);
-                                                snackBarWithMessage.showSnackbar("Exercise Updated");
-                                            });
-                                        }
-                                        else
-                                        {
-                                            SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(ct);
-                                            snackBarWithMessage.showSnackbar(response.message().toString());
-                                        }
-                                    }
-                                });
                             }
                         }
 
@@ -361,53 +315,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.MyView
                     {
                         SharedPreferences sharedPreferences = new SharedPreferences(ct);
 
-                        if(sharedPreferences.isOfflineMode())
                         {
                             locallyDeleteExercise(position, ct);
-                        }
-                        else
-                        {
-                            final LoadingDialog loadingDialog = new LoadingDialog((Activity) ct);
-                            loadingDialog.loadingAlertDialog();
-
-                            WorkoutSetsApi workoutSetsApi = new WorkoutSetsApi(ct, ct.getString(R.string.API_ENDPOINT));
-                            List<WorkoutSet> to_be_deleted_sets = MainActivity.dataStorage.deleteExerciseGetSets(Exercises.get(position).getName());
-
-                            workoutSetsApi.deleteWorkoutSets(to_be_deleted_sets, new Callback() {
-                                @Override
-                                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                    loadingDialog.dismissDialog();
-
-                                    ((Activity) ct).runOnUiThread(() -> {
-                                        SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(ct);
-                                        snackBarWithMessage.showSnackbar("Can't connect to server");
-                                    });
-                                }
-
-                                @Override
-                                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
-                                    loadingDialog.dismissDialog();
-
-                                    if(200 == response.code()){
-
-                                        ((Activity) ct).runOnUiThread(() -> {
-                                            locallyDeleteExercise(position, ct);
-                                            SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(ct);
-                                            snackBarWithMessage.showSnackbar("Exercise Deleted");
-                                        });
-
-                                    }
-                                    else
-                                    {
-                                        ((Activity) ct).runOnUiThread(() -> {
-                                            SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(ct);
-                                            snackBarWithMessage.showSnackbar(response.message().toString());
-                                        });
-                                    }
-                                }
-                            });
-
                         }
 
                         alertDialog.dismiss();
