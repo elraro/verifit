@@ -171,7 +171,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         {
             if(et_weight.getText().toString().isEmpty() || et_reps.getText().toString().isEmpty())
             {
-                Toast.makeText(getApplicationContext(),"Please write Weight and Reps",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.write_weight_reps),Toast.LENGTH_SHORT).show();
             }
             else
             {
@@ -185,7 +185,7 @@ public class AddExerciseActivity extends AppCompatActivity {
                 // Ignore wrong input
                 if(reps == 0 || weight == 0 || reps < 0 || weight < 0)
                 {
-                    Toast.makeText(getApplicationContext(),"Please write correct Weight and Reps",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),getString(R.string.write_correct_weight_reps),Toast.LENGTH_SHORT).show();
                 }
                 // Save set
                 else
@@ -297,13 +297,13 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         // Let the user know I guess
         runOnUiThread(() -> {
-            showSnackbarMessage("Set Updated");
+            showSnackbarMessage(getString(R.string.set_updated));
             updateTodaysExercises();
         });
 
 
-        bt_save.setText("Save");
-        bt_clear.setText("Clear");
+        bt_save.setText(getString(R.string.save));
+        bt_clear.setText(getString(R.string.clear));
         AddExerciseActivity.isEditMode = false;
     }
 
@@ -326,7 +326,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     {
         runOnUiThread(()->{
             updateTodaysExercises();
-            showSnackbarMessage("Set Added");
+            showSnackbarMessage(getString(R.string.set_added));
         });
     }
 
@@ -343,7 +343,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     // Clear
     public void clickClear(View view)
     {
-        bt_clear.setText("Clear");
+        bt_clear.setText(getString(R.string.clear));
         et_reps.setText("");
         et_weight.setText("");
     }
@@ -423,7 +423,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         ((Activity) ct).runOnUiThread(() -> {
             SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(((Activity) ct));
-            snackBarWithMessage.showSnackbar("Set Deleted");
+            snackBarWithMessage.showSnackbar(ct.getString(R.string.set_deleted));
             updateTodaysExercises();
         });
     }
@@ -432,8 +432,8 @@ public class AddExerciseActivity extends AppCompatActivity {
     {
         System.out.println("Edit Set on position " + position + " clicked");
 
-        AddExerciseActivity.bt_clear.setText("Delete");
-        AddExerciseActivity.bt_save.setText("Update");
+        AddExerciseActivity.bt_clear.setText(view.getContext().getString(R.string.delete));
+        AddExerciseActivity.bt_save.setText(view.getContext().getString(R.string.update));
 
         // Populate Edit Texts
         AddExerciseActivity.Clicked_Set = position;
@@ -564,7 +564,7 @@ public class AddExerciseActivity extends AppCompatActivity {
             }
         }
 
-        bt_clear.setText("Clear");
+        bt_clear.setText(bt_clear.getContext().getString(R.string.clear));
 
         // Update Recycler View
         AddExerciseActivity.workoutSetAdapter2.notifyDataSetChanged();
@@ -603,7 +603,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         // Set Edit Text values to max set volume if possible
         initEditTexts();
 
-        bt_clear.setText("Clear");
+        bt_clear.setText(getString(R.string.clear));
 
         // Initialize Integer position or else we get a crash
         AddExerciseActivity.Clicked_Set = Todays_Exercise_Sets.size() - 1;
@@ -732,7 +732,7 @@ public class AddExerciseActivity extends AppCompatActivity {
             if(x == 0)
             {
                 SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(AddExerciseActivity.this);
-                snackBarWithMessage.showSnackbar("No data found");
+                snackBarWithMessage.showSnackbar(getString(R.string.no_data_found));
                 return super.onOptionsItemSelected(item);
             }
 
@@ -981,7 +981,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         if(allPerformedSessions.size() == 0){
             SnackBarWithMessage snackBarWithMessage = new SnackBarWithMessage(AddExerciseActivity.this);
-            snackBarWithMessage.showSnackbar("No data found");
+            snackBarWithMessage.showSnackbar(getString(R.string.no_data_found));
             return super.onOptionsItemSelected(item);
         }
 
@@ -1272,7 +1272,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         else
         {
             System.out.println("We can't comment, exercise doesn't exist");
-            Toast.makeText(getApplicationContext(),"Can't comment without sets",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),getString(R.string.cant_comment_without_sets),Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -1322,7 +1322,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         if (finalI == finalSize-1) // Show popup only when last set comment is saved
         {
-            showSnackbarMessage("Comment Logged");
+            showSnackbarMessage(getString(R.string.comment_logged));
         }
     }
 
@@ -1352,12 +1352,12 @@ public class AddExerciseActivity extends AppCompatActivity {
             public void onFinish()
             {
                 TimerRunning = false;
-                bt_start.setText("Start");
+                bt_start.setText(getString(R.string.start));
             }
         }.start();
 
         TimerRunning = true;
-        bt_start.setText("Pause");
+        bt_start.setText(getString(R.string.pause));
 
     }
 
@@ -1396,7 +1396,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     {
         countDownTimer.cancel();
         TimerRunning = false;
-        bt_start.setText("Start");
+        bt_start.setText(getString(R.string.start));
     }
 
     public void resetTimer()

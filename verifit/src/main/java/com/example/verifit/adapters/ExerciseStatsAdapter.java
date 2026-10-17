@@ -86,12 +86,12 @@ public class ExerciseStatsAdapter extends RecyclerView.Adapter<ExerciseStatsAdap
         // if 1rm was performed
         if(actual_1rm.equals("0.0"))
         {
-            holder.tv_est_actual_1rm.setText("Estimated 1RM");
+            holder.tv_est_actual_1rm.setText(ct.getString(R.string.estimated_1rm));
             holder.tv_estimated_1rm.setText(estimated_1rm);
         }
         else
         {
-            holder.tv_est_actual_1rm.setText("1RM");
+            holder.tv_est_actual_1rm.setText(ct.getString(R.string.one_rm));
             holder.tv_estimated_1rm.setText(actual_1rm);
         }
 

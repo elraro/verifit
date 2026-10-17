@@ -31,34 +31,34 @@
             android:exported="false" />
         <activity
             android:name=".ui.ChartsActivity"
-            android:label="Charts" />
+            android:label="@string/charts" />
         <activity
             android:name=".ui.CustomExerciseActivity"
-            android:label="New Exercise" />
+            android:label="@string/new_exercise" />
         <activity
             android:name=".ui.ExercisesActivity"
-            android:label="Exercises" />
+            android:label="@string/exercises" />
         <activity
             android:name=".ui.DayActivity"
             android:parentActivityName=".ui.DiaryActivity"
-            android:label="Day" />
+            android:label="@string/day" />
         <activity
             android:name=".ui.SettingsActivity"
-            android:label="Settings"
+            android:label="@string/settings"
             android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.CalculatorActivity"
-            android:label="Plate Calculator" />
+            android:label="@string/plate_calculator" />
         <activity
             android:name=".ui.PersonalRecordsActivity"
-            android:label="Personal Records"
+            android:label="@string/personal_records"
             android:parentActivityName=".ui.ChartsActivity" />
         <activity
             android:name=".ui.AddExerciseActivity"
-            android:label="Add Exercise" />
+            android:label="@string/add_exercise" />
         <activity
             android:name=".ui.DiaryActivity"
-            android:label="Diary" />
+            android:label="@string/diary" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"

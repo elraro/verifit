@@ -1,21 +1,126 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Verifit</string>
-    <string name="title_activity_settings">SettingsActivity</string>
 
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <!-- UI -->
+    <string name="loading">Loading...</string>
+    <string name="actual_1rm">Actual 1RM</string>
+    <string name="close">Close</string>
+    <string name="estimated_1rm">Estimated 1RM</string>
+    <string name="max_set_volume">Max Set Volume</string>
+    <string name="max_reps">Max Reps</string>
+    <string name="reps_lower">reps</string>
+    <string name="max_weight">Max Weight</string>
+    <string name="total_volume">Total Volume</string>
+    <string name="total_reps">Total Reps</string>
+    <string name="sets_lower">sets</string>
+    <string name="total_sets">Total Sets</string>
+    <string name="edit">Edit</string>
+    <string name="delete_all_saved_data">Delete all saved data?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="record">Record</string>
+    <string name="pr_banner_text">Volume PR\n\nEstimated One Rep Max PR!\n\nMaximum Repetitions PR!\n\nMaximum Weight PR!\n\nHarder Than Last Time!\n\n</string>
+    <string name="choose_exercise_name">Choose Exercise Name:</string>
+    <string name="choose_exercise_category">Choose Exercise Category:</string>
+    <string name="est_1rm_colon">Est. 1RM:</string>
+    <string name="volume_colon">Volume:</string>
+    <string name="volume_pr">Volume PR</string>
+    <string name="comment">Comment</string>
+    <string name="delete_selected_set">Delete selected set?</string>
+    <string name="progress">Progress</string>
+    <string name="remote_files">Remote Files</string>
+    <string name="delete_this_day">Delete this day?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="timer">Timer</string>
+    <string name="reset">Reset</string>
+    <string name="start">Start</string>
+    <string name="this_will_overwrite_all_saved_data">This will overwrite all saved data</string>
+    <string name="edit_exercise">Edit Exercise</string>
+    <string name="save">Save</string>
+    <string name="clear">Clear</string>
+    <string name="exercise">Exercise</string>
+    <string name="exercises_lower">exercises</string>
+    <string name="volume">Volume</string>
+    <string name="reps">Reps</string>
+    <string name="sets">Sets</string>
+    <string name="view">View</string>
+    <string name="weight_colon">"Weight: "</string>
+    <string name="reps_colon">Reps:</string>
+    <string name="delete_all_sets_with_this_exercise">Delete all sets with this exercise?</string>
+    <string name="overwrite">Overwrite</string>
+    <string name="set_volume">Set Volume</string>
+    <string name="weight">Weight</string>
+    <string name="search">Search</string>
+    <string name="add">Add</string>
+    <string name="toggle_favorite">Toggle Favorite</string>
+    <string name="charts">Charts</string>
+    <string name="personal_records">Personal Records</string>
+    <string name="data">Data</string>
+    <string name="import_a_previous_backup_from_phone_stor">Import a previous backup from phone storage</string>
+    <string name="import_label">Import</string>
+    <string name="export_to_phone_storage">Export to phone storage</string>
+    <string name="export">Export</string>
+    <string name="delete_all_app_workout_data">Delete all app workout data</string>
+    <string name="clear_data">Clear Data</string>
+    <string name="webdav_settings">Webdav Settings</string>
+    <string name="webdav_backup">Webdav Backup</string>
+    <string name="import_a_previous_backup_from_webdav_ser">Import a previous backup from webdav server</string>
+    <string name="export_to_webdav_server">Export to webdav server</string>
+    <string name="url">Url</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="test_webdav_configuration">Test webdav configuration</string>
+    <string name="check_connection">Check Connection</string>
+    <string name="periodically_export_workouts_to_your_web">Periodically export workouts to your webdav server</string>
+    <string name="auto_export">Auto Export</string>
+    <string name="general">General</string>
+    <string name="theme">Theme</string>
+    <string name="contributions_are_always_welcome">Contributions are always welcome</string>
+    <string name="source_code">Source Code</string>
+    <string name="if_you_like_this_app_consider_donating">If you like this app consider donating</string>
+    <string name="donate">Donate</string>
+    <string name="gnu_general_public_licence_version_3">GNU General Public Licence, version 3</string>
+    <string name="licence">Licence</string>
+    <string name="new_exercise">New Exercise</string>
+    <string name="exercises">Exercises</string>
+    <string name="day">Day</string>
+    <string name="settings">Settings</string>
+    <string name="plate_calculator">Plate Calculator</string>
+    <string name="add_exercise">Add Exercise</string>
+    <string name="diary">Diary</string>
+    <string name="multiple_records">Multiple Records</string>
+    <string name="one_rm">1RM</string>
+    <string name="update">Update</string>
+    <string name="pause">Pause</string>
+    <string name="no_logged_exercises">No logged exercises</string>
+    <string name="fields_empty_cannot_export">Some fields are empty, cannot export</string>
+    <string name="fields_empty">Some fields are empty</string>
+    <string name="auto_webdav_on">Auto WebDAV backup is on</string>
+    <string name="auto_webdav_off">Auto WebDAV backup is off</string>
+    <string name="auto_backup_on">Auto backup is on</string>
+    <string name="auto_backup_off">Auto backup is off</string>
+    <string name="webdav_off">WebDAV is off</string>
+    <string name="webdav_on">WebDAV is on</string>
+    <string name="data_deleted">Data deleted</string>
+    <string name="connection_successful">Connection successful</string>
+    <string name="exercise_saved">Exercise saved</string>
+    <string name="exercise_exists">Exercise already exists</string>
+    <string name="empty_diary">Empty diary</string>
+    <string name="import_successful">Import successful</string>
+    <string name="choose_appropriate_name">Please choose an appropriate name</string>
+    <string name="write_weight_reps">Please enter weight and reps</string>
+    <string name="write_correct_weight_reps">Please enter a valid weight and reps</string>
+    <string name="set_updated">Set updated</string>
+    <string name="set_added">Set added</string>
+    <string name="set_deleted">Set deleted</string>
+    <string name="no_data_found">No data found</string>
+    <string name="cant_comment_without_sets">Can\'t comment without sets</string>
+    <string name="comment_logged">Comment saved</string>
+    <string name="backup_saved_in">Backup saved in %s</string>
+    <string name="could_not_locate_file">Could not locate file %s</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- UI -->
 
     <!-- Charts -->
     <string name="range_week">7 days</string>
@@ -56,7 +161,7 @@
         <item>7 days</item>
     </string-array>
 
-    <string-array name="Categories">
+    <string-array name="Categories" translatable="false">
         <item>Chest</item>
         <item>Back</item>
         <item>Shoulders</item>

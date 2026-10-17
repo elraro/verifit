@@ -2,92 +2,92 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="Data">
+    <PreferenceCategory app:title="@string/data">
 
         <Preference
             app:key="importcsv"
-            app:summary="Import a previous backup from phone storage"
-            app:title="Import"
+            app:summary="@string/import_a_previous_backup_from_phone_stor"
+            app:title="@string/import_label"
             app:useSimpleSummaryProvider="false" />
 
         <Preference
             app:key="exportcsv"
-            app:summary="Export to phone storage"
-            app:title="Export"
+            app:summary="@string/export_to_phone_storage"
+            app:title="@string/export"
             app:useSimpleSummaryProvider="false" />
 
         <Preference
             app:key="deletedata"
-            app:summary="Delete all app workout data"
-            app:title="Clear Data"
+            app:summary="@string/delete_all_app_workout_data"
+            app:title="@string/clear_data"
             app:useSimpleSummaryProvider="false" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Webdav Settings">
+    <PreferenceCategory app:title="@string/webdav_settings">
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="togglewebdav"
-            android:title="Webdav Backup" />
+            android:title="@string/webdav_backup" />
         <Preference
             app:key="importwebdav"
-            app:summary="Import a previous backup from webdav server"
-            app:title="Import"
+            app:summary="@string/import_a_previous_backup_from_webdav_ser"
+            app:title="@string/import_label"
             app:useSimpleSummaryProvider="false" />
 
         <Preference
             app:key="exportwebdav"
-            app:summary="Export to webdav server"
-            app:title="Export"
+            app:summary="@string/export_to_webdav_server"
+            app:title="@string/export"
             app:useSimpleSummaryProvider="false" />
         <EditTextPreference
             android:key="webdavurl"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Url"
+            android:title="@string/url"
             app:summary="http://example.com" />
         <EditTextPreference
             android:key="webdavusername"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Username"
+            android:title="@string/username"
             app:summary="" />
         <EditTextPreference
             android:key="webdavpassword"
             android:inputType="textPassword"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Password" />
+            android:title="@string/password" />
 
         <Preference
             android:key="webdavcheckconnection"
-            android:summary="Test webdav configuration"
-            android:title="Check Connection" />
+            android:summary="@string/test_webdav_configuration"
+            android:title="@string/check_connection" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="autowebdavbackup"
-            android:summary="Periodically export workouts to your webdav server"
-            android:title="Auto Export" />
+            android:summary="@string/periodically_export_workouts_to_your_web"
+            android:title="@string/auto_export" />
 
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="General">
+    <PreferenceCategory app:title="@string/general">
 
 <ListPreference
             app:defaultValue="system"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
             app:key="theme"
-            app:title="Theme"
+            app:title="@string/theme"
             app:useSimpleSummaryProvider="true" />
 
         <Preference
             app:key="github"
-            app:summary="Contributions are always welcome"
-            app:title="Source Code"
+            app:summary="@string/contributions_are_always_welcome"
+            app:title="@string/source_code"
             app:useSimpleSummaryProvider="false" />
 
 <!--        <Preference-->
@@ -98,15 +98,15 @@
 
         <Preference
             app:key="donate"
-            app:summary="If you like this app consider donating"
-            app:title="Donate"
+            app:summary="@string/if_you_like_this_app_consider_donating"
+            app:title="@string/donate"
             app:useSimpleSummaryProvider="false" />
 
 
         <Preference
             app:key="licence"
-            app:summary="GNU General Public Licence, version 3"
-            app:title="Licence"
+            app:summary="@string/gnu_general_public_licence_version_3"
+            app:title="@string/licence"
             app:useSimpleSummaryProvider="false" />
 
 <!--        <Preference-->

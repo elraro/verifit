@@ -31,7 +31,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="10dp"
-                android:text="sets"
+                android:text="@string/sets_lower"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/sets"

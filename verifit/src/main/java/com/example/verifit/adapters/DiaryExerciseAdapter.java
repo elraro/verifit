@@ -206,11 +206,11 @@ public class DiaryExerciseAdapter extends RecyclerView.Adapter<DiaryExerciseAdap
 
         if(Records.size() > 1)
         {
-            tv_record.setText("Multiple Records");
+            tv_record.setText(ct.getString(R.string.multiple_records));
         }
         else
         {
-            tv_record.setText("Record");
+            tv_record.setText(ct.getString(R.string.record));
         }
 
         // Initialize personal record recyclerview

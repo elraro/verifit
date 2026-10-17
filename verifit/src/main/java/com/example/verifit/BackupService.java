@@ -145,7 +145,7 @@ public class BackupService extends Service {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast toast = Toast.makeText(context, "Backup saved in " + webdavurl + MainActivity.EXPORT_FILENAME+".txt", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, getString(R.string.backup_saved_in, webdavurl + MainActivity.EXPORT_FILENAME+".txt"), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             });

@@ -530,7 +530,7 @@ public class DataStorage {
         {
             System.out.println(e.getMessage());
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
-            Toast.makeText(context, "Could not locate file " + uri.getPath(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.could_not_locate_file, uri.getPath()),Toast.LENGTH_SHORT).show();
             clearDataStructures(context);
             return false;
         }
@@ -599,7 +599,7 @@ public class DataStorage {
                 }
             }
             outputStream.close();
-            Toast.makeText(context, "Backup saved in " + Environment.DIRECTORY_DOCUMENTS+"/Verifit" , Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.backup_saved_in, Environment.DIRECTORY_DOCUMENTS+"/Verifit"), Toast.LENGTH_LONG).show();
         }
         catch (Exception e)
         {

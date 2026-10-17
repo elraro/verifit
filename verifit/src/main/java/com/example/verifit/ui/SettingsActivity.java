@@ -261,7 +261,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 if(webdav_url.isEmpty() || webdav_username.isEmpty() || webdav_password.isEmpty())
                 {
-                    Toast.makeText(getContext(), "Some fields are empty, cannot export", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.fields_empty_cannot_export), Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -288,7 +288,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 if(webdav_url.isEmpty() || webdav_username.isEmpty() || webdav_password.isEmpty())
                 {
-                    Toast.makeText(getContext(), "Some fields are empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.fields_empty), Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -323,7 +323,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 if(webdav_url.isEmpty() || webdav_username.isEmpty() || webdav_password.isEmpty())
                 {
-                    Toast.makeText(getContext(), "Some fields are empty, cannot export", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.fields_empty_cannot_export), Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -342,13 +342,13 @@ public class SettingsActivity extends AppCompatActivity {
                 if (preferenceManager.getSharedPreferences().getBoolean("autowebdavbackup", true))
                 {
                     System.out.println("Auto Webdav backup is on");
-                    Toast.makeText(getContext(), "Auto Webdav backup is on", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.auto_webdav_on), Toast.LENGTH_SHORT).show();
                     sharedPreferences.save("true", "autowebdavbackup");
                 }
                 else
                 {
                     System.out.println("Auto Webdav backup is off");
-                    Toast.makeText(getContext(), "Auto Webdav backup is off", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.auto_webdav_off), Toast.LENGTH_SHORT).show();
                     sharedPreferences.save("false", "autowebdavbackup");
                 }
             }
@@ -360,53 +360,32 @@ public class SettingsActivity extends AppCompatActivity {
                 if (preferenceManager.getSharedPreferences().getBoolean("autobackup", true))
                 {
                     System.out.println("Auto backup is on");
-                    Toast.makeText(getContext(), "Auto backup is on", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.auto_backup_on), Toast.LENGTH_SHORT).show();
                     sharedPreferences.save("true", "autobackup");
                 }
                 else
                 {
                     System.out.println("Auto backup is off");
-                    Toast.makeText(getContext(), "Auto backup is off", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.auto_backup_off), Toast.LENGTH_SHORT).show();
                     sharedPreferences.save("false", "autobackup");
                 }
             }
 
             // General
-            else if (key.equals("theme"))
-            {
-                Toast.makeText(getContext(), "Dark Theme not implemented yet", Toast.LENGTH_SHORT).show();
-            }
             else if (key.equals("github"))
             {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/elraro/verifit"));
                 startActivity(browserIntent);
-            }
-            else if (key.equals("version"))
-            {
-                Toast.makeText(getContext(),"Nothing to see here",Toast.LENGTH_SHORT).show();
             }
             else if (key.equals("donate"))
             {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://paypal.me/elraro"));
                 startActivity(browserIntent);
             }
-            else if(key.equals("privacy_policy"))
-            {
-                // Prepare to show exercise dialog box
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                View view = inflater.inflate(R.layout.privacy_policy_dialog,null);
-                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setView(view).create();
-
-                alertDialog.show();
-            }
             else if (key.equals("licence"))
             {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.gnu.org/licenses/gpl-3.0.en.html"));
                 startActivity(browserIntent);
-            }
-            else if (key.equals("contact_us"))
-            {
-                composeEmail("support@verifit.xyz", "", getContext());
             }
             return true;
         }
@@ -428,7 +407,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         public void turnWebdavOff()
         {
-            Toast.makeText(getContext(), "Webdav is off", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.webdav_off), Toast.LENGTH_SHORT).show();
 
             SharedPreferences sharedPreferences = new SharedPreferences(getContext());
             sharedPreferences.save("false", "togglewebdav");
@@ -457,7 +436,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             System.out.println("turnWebdavOn() Webdav on");
 
-            Toast.makeText(getContext(), "Webdav is on", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.webdav_on), Toast.LENGTH_SHORT).show();
             Preference importwebdav = findPreference("importwebdav");
             importwebdav.setVisible(true);
             Preference excportwebdav = findPreference("exportwebdav");
@@ -497,7 +476,7 @@ public class SettingsActivity extends AppCompatActivity {
                     MainActivity.dataStorage.getWorkoutDays().clear();
                     MainActivity.dataStorage.saveWorkoutData(getContext());
                     alertDialog.dismiss();
-                    Toast.makeText(getContext(),"Data Deleted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),getString(R.string.data_deleted),Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(getContext(),MainActivity.class);
                     startActivity(in);
                 }

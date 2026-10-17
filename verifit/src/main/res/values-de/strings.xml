@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loading">Wird geladen…</string>
+    <string name="actual_1rm">Tatsächliches 1RM</string>
+    <string name="close">Schließen</string>
+    <string name="estimated_1rm">Geschätztes 1RM</string>
+    <string name="max_set_volume">Max. Satzvolumen</string>
+    <string name="max_reps">Max. Wiederholungen</string>
+    <string name="reps_lower">Wdh.</string>
+    <string name="max_weight">Max. Gewicht</string>
+    <string name="total_volume">Gesamtvolumen</string>
+    <string name="total_reps">Wiederholungen gesamt</string>
+    <string name="sets_lower">Sätze</string>
+    <string name="total_sets">Sätze gesamt</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="delete_all_saved_data">Alle gespeicherten Daten löschen?</string>
+    <string name="delete">Löschen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="record">Rekord</string>
+    <string name="pr_banner_text">Volumenrekord\n\nRekord beim geschätzten 1RM!\n\nRekord bei den maximalen Wiederholungen!\n\nRekord beim Maximalgewicht!\n\nHärter als beim letzten Mal!\n\n</string>
+    <string name="choose_exercise_name">Wähle den Namen der Übung:</string>
+    <string name="choose_exercise_category">Wähle die Kategorie der Übung:</string>
+    <string name="est_1rm_colon">Gesch. 1RM:</string>
+    <string name="volume_colon">Volumen:</string>
+    <string name="volume_pr">Volumenrekord</string>
+    <string name="comment">Kommentar</string>
+    <string name="delete_selected_set">Ausgewählten Satz löschen?</string>
+    <string name="progress">Fortschritt</string>
+    <string name="remote_files">Dateien auf dem Server</string>
+    <string name="delete_this_day">Diesen Tag löschen?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="timer">Timer</string>
+    <string name="reset">Zurücksetzen</string>
+    <string name="start">Start</string>
+    <string name="this_will_overwrite_all_saved_data">Dadurch werden alle gespeicherten Daten überschrieben</string>
+    <string name="edit_exercise">Übung bearbeiten</string>
+    <string name="save">Speichern</string>
+    <string name="clear">Leeren</string>
+    <string name="exercise">Übung</string>
+    <string name="exercises_lower">Übungen</string>
+    <string name="volume">Volumen</string>
+    <string name="reps">Wiederholungen</string>
+    <string name="sets">Sätze</string>
+    <string name="view">Ansehen</string>
+    <string name="weight_colon">"Gewicht: "</string>
+    <string name="reps_colon">Wiederholungen:</string>
+    <string name="delete_all_sets_with_this_exercise">Alle Sätze dieser Übung löschen?</string>
+    <string name="overwrite">Überschreiben</string>
+    <string name="set_volume">Satzvolumen</string>
+    <string name="weight">Gewicht</string>
+    <string name="search">Suchen</string>
+    <string name="add">Hinzufügen</string>
+    <string name="toggle_favorite">Favorit umschalten</string>
+    <string name="charts">Diagramme</string>
+    <string name="personal_records">Persönliche Rekorde</string>
+    <string name="data">Daten</string>
+    <string name="import_a_previous_backup_from_phone_stor">Eine Sicherung aus dem Telefonspeicher importieren</string>
+    <string name="import_label">Importieren</string>
+    <string name="export_to_phone_storage">In den Telefonspeicher exportieren</string>
+    <string name="export">Exportieren</string>
+    <string name="delete_all_app_workout_data">Alle Trainingsdaten der App löschen</string>
+    <string name="clear_data">Daten löschen</string>
+    <string name="webdav_settings">WebDAV-Einstellungen</string>
+    <string name="webdav_backup">WebDAV-Sicherung</string>
+    <string name="import_a_previous_backup_from_webdav_ser">Eine Sicherung vom WebDAV-Server importieren</string>
+    <string name="export_to_webdav_server">Auf den WebDAV-Server exportieren</string>
+    <string name="url">URL</string>
+    <string name="username">Benutzername</string>
+    <string name="password">Passwort</string>
+    <string name="test_webdav_configuration">WebDAV-Konfiguration testen</string>
+    <string name="check_connection">Verbindung prüfen</string>
+    <string name="periodically_export_workouts_to_your_web">Trainings regelmäßig auf deinen WebDAV-Server exportieren</string>
+    <string name="auto_export">Automatischer Export</string>
+    <string name="general">Allgemein</string>
+    <string name="theme">Design</string>
+    <string name="contributions_are_always_welcome">Beiträge sind jederzeit willkommen</string>
+    <string name="source_code">Quellcode</string>
+    <string name="if_you_like_this_app_consider_donating">Wenn dir die App gefällt, denke über eine Spende nach</string>
+    <string name="donate">Spenden</string>
+    <string name="gnu_general_public_licence_version_3">GNU General Public License, Version 3</string>
+    <string name="licence">Lizenz</string>
+    <string name="new_exercise">Neue Übung</string>
+    <string name="exercises">Übungen</string>
+    <string name="day">Tag</string>
+    <string name="settings">Einstellungen</string>
+    <string name="plate_calculator">Hantelscheiben-Rechner</string>
+    <string name="add_exercise">Übung hinzufügen</string>
+    <string name="diary">Tagebuch</string>
+    <string name="multiple_records">Mehrere Rekorde</string>
+    <string name="one_rm">1RM</string>
+    <string name="update">Aktualisieren</string>
+    <string name="pause">Pause</string>
+    <string name="no_logged_exercises">Keine Übungen erfasst</string>
+    <string name="fields_empty_cannot_export">Einige Felder sind leer, Export nicht möglich</string>
+    <string name="fields_empty">Einige Felder sind leer</string>
+    <string name="auto_webdav_on">Automatische WebDAV-Sicherung ist an</string>
+    <string name="auto_webdav_off">Automatische WebDAV-Sicherung ist aus</string>
+    <string name="auto_backup_on">Automatische Sicherung ist an</string>
+    <string name="auto_backup_off">Automatische Sicherung ist aus</string>
+    <string name="webdav_off">WebDAV ist aus</string>
+    <string name="webdav_on">WebDAV ist an</string>
+    <string name="data_deleted">Daten gelöscht</string>
+    <string name="connection_successful">Verbindung erfolgreich</string>
+    <string name="exercise_saved">Übung gespeichert</string>
+    <string name="exercise_exists">Die Übung existiert bereits</string>
+    <string name="empty_diary">Leeres Tagebuch</string>
+    <string name="import_successful">Import erfolgreich</string>
+    <string name="choose_appropriate_name">Bitte wähle einen passenden Namen</string>
+    <string name="write_weight_reps">Bitte Gewicht und Wiederholungen eingeben</string>
+    <string name="write_correct_weight_reps">Bitte gültiges Gewicht und gültige Wiederholungen eingeben</string>
+    <string name="set_updated">Satz aktualisiert</string>
+    <string name="set_added">Satz hinzugefügt</string>
+    <string name="set_deleted">Satz gelöscht</string>
+    <string name="no_data_found">Keine Daten gefunden</string>
+    <string name="cant_comment_without_sets">Ohne Sätze kann nicht kommentiert werden</string>
+    <string name="comment_logged">Kommentar gespeichert</string>
+    <string name="backup_saved_in">Sicherung gespeichert unter %s</string>
+    <string name="could_not_locate_file">Datei %s nicht gefunden</string>
+    <string name="range_week">7 Tage</string>
+    <string name="range_month">1 Monat</string>
+    <string name="range_year">1 Jahr</string>
+    <string name="range_all">Gesamt</string>
+    <string name="chart_volume_title">Volumen</string>
+    <string name="chart_volume_desc">Gesamtvolumen pro Zeitraum</string>
+    <string name="chart_workouts_title">Trainings</string>
+    <string name="chart_workouts_desc">Anzahl der Trainings pro Zeitraum</string>
+    <string name="chart_bodyparts_title">Körperpartien</string>
+    <string name="chart_bodyparts_desc">Sätze pro Körperpartie im Zeitverlauf</string>
+    <string name="chart_exercises_title">Übungen</string>
+    <string name="chart_exercises_desc">Sätze deiner am häufigsten trainierten Übungen</string>
+    <string name="series_volume">Volumen (kg)</string>
+    <string name="series_workouts">Trainings</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_reps">Wdh.</string>
+    <string name="unit_sets">Sätze</string>
+    <string name="graph_no_sessions">Keine Einheiten in diesem Zeitraum</string>
+    <string name="graph_summary">Einheiten: %1$d   Beste: %2$.1f %3$s\nDurchschnitt: %4$.1f %5$s   Letzte: %6$.1f %7$s   Änderung: %8$s</string>
+    <string-array name="graph_metrics">
+        <item>Volumen</item>
+        <item>Gewicht</item>
+        <item>Wiederholungen</item>
+        <item>Gesch. 1RM</item>
+        <item>Sätze</item>
+        <item>Ø Gewicht</item>
+    </string-array>
+    <string-array name="graph_ranges">
+        <item>Gesamt</item>
+        <item>1 Jahr</item>
+        <item>6 Monate</item>
+        <item>3 Monate</item>
+        <item>1 Monat</item>
+        <item>7 Tage</item>
+    </string-array>
+    <string-array name="theme_entries">
+        <item>Systemstandard</item>
+        <item>Hell</item>
+        <item>Dunkel</item>
+    </string-array>
+</resources>

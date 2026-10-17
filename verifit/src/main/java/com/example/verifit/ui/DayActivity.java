@@ -92,7 +92,7 @@ public class DayActivity extends AppCompatActivity {
             // Notify User
             if(Today_Execrises.isEmpty())
             {
-                Toast.makeText(getApplicationContext(),"No Logged Exercises",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.no_logged_exercises),Toast.LENGTH_SHORT).show();
             }
 
 

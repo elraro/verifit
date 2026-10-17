@@ -47,7 +47,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
-                android:text="Volume PR"
+                android:text="@string/volume_pr"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/core_black"

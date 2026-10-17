@@ -1,5 +1,6 @@
 package com.example.verifit.webdav;
 
+import com.example.verifit.R;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -80,7 +81,7 @@ public class ImportWebdavThread extends Thread{
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast toast = Toast.makeText(context, "Import Sucessful", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, context.getString(R.string.import_successful), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             });

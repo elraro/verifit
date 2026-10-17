@@ -275,7 +275,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.MyView
                         // Tell user to stop fucking around
                         else
                         {
-                            Toast.makeText(ct,"Please choose an apropriate name", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ct,ct.getString(R.string.choose_appropriate_name), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

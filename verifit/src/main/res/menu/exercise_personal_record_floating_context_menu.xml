@@ -3,13 +3,13 @@
 
     <item
         android:id="@+id/favorite"
-        android:title="Toggle Favorite"
+        android:title="@string/toggle_favorite"
         android:icon="@drawable/ic_create_24px">
     </item>
 
     <item
         android:id="@+id/charts"
-        android:title="Charts"
+        android:title="@string/charts"
         android:icon="@drawable/ic_create_24px">
     </item>
 

@@ -1,5 +1,6 @@
 package com.example.verifit.webdav;
 
+import com.example.verifit.R;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
@@ -53,7 +54,7 @@ public class CheckWebdavThread extends Thread{
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast toast = Toast.makeText(context, "Connection Successful", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, context.getString(R.string.connection_successful), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             });

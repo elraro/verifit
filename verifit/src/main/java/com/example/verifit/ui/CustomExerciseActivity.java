@@ -61,13 +61,13 @@ public class CustomExerciseActivity extends AppCompatActivity implements Adapter
                 Exercise new_exercise = new Exercise(et_exercise_name.getText().toString(),selected_category);
                 MainActivity.dataStorage.getKnownExercises().add(new_exercise);
                 MainActivity.dataStorage.saveKnownExerciseData(getApplicationContext());
-                Toast.makeText(getApplicationContext(),"Exercise Saved",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.exercise_saved),Toast.LENGTH_SHORT).show();
                 Intent in = new Intent(this, ExercisesActivity.class);
                 startActivity(in);
             }
             else
             {
-                Toast.makeText(getApplicationContext(),"Exercise Already Exists",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.exercise_exists),Toast.LENGTH_SHORT).show();
             }
         }
         return super.onOptionsItemSelected(item);

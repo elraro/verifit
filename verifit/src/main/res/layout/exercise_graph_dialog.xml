@@ -15,7 +15,7 @@
         android:layout_marginTop="20dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Progress"
+        android:text="@string/progress"
         android:textColor="@color/colorPrimary"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"

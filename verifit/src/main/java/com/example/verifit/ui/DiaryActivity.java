@@ -76,7 +76,7 @@ public class DiaryActivity extends AppCompatActivity implements BottomNavigation
         // Notify User in case of empty diary
         if(MainActivity.dataStorage.getWorkoutDays().isEmpty())
         {
-            Toast.makeText(this, "Empty Diary", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.empty_diary), Toast.LENGTH_SHORT).show();
         }
         else
         {
