@@ -738,18 +738,19 @@ public class AddExerciseActivity extends AppCompatActivity {
 
 
             // Series available to the graph, keyed by the metric spinner option
-            LinkedHashMap<String, ArrayList<Entry>> series = new LinkedHashMap<>();
-            series.put("Volume", volumeValues);
-            series.put("Weight", maxWeightValues);
-            series.put("Reps", totalRepsValues);
-            series.put("Est. 1RM", oneRepMaxValues);
-            series.put("Sets", setsValues);
-            series.put("Avg weight", avgWeightValues);
+            // Same order as the graph_metrics string array
+            ArrayList<ArrayList<Entry>> series = new ArrayList<>();
+            series.add(volumeValues);
+            series.add(maxWeightValues);
+            series.add(totalRepsValues);
+            series.add(oneRepMaxValues);
+            series.add(setsValues);
+            series.add(avgWeightValues);
             TextView summary = view.findViewById(R.id.tv_graph_summary);
 
             // Chart Data Spinner
             Spinner graph_value_spinner = view.findViewById(R.id.graph_spinner);
-            String[] graph_value_spinner_options = {"Volume", "Weight", "Reps", "Est. 1RM", "Sets", "Avg weight"};
+            String[] graph_value_spinner_options = getResources().getStringArray(R.array.graph_metrics);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, graph_value_spinner_options);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             graph_value_spinner.setAdapter(adapter);
@@ -758,7 +759,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
             // Chart Timeframe Spinner
             Spinner graph_time_spinner = view.findViewById(R.id.graph_time_spinner);
-            String[] graph_time_spinner_options = {"All Time", "Last Year", "6 months", "3 months", "1 month"};
+            String[] graph_time_spinner_options = getResources().getStringArray(R.array.graph_ranges);
             ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, graph_time_spinner_options);
             adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             graph_time_spinner.setAdapter(adapter1);
@@ -768,8 +769,8 @@ public class AddExerciseActivity extends AppCompatActivity {
             graph_value_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    String selectedOption1 = graph_time_spinner.getSelectedItem().toString();
-                    String selectedOption2 = graph_value_spinner_options[i];
+                    int selectedOption1 = graph_time_spinner.getSelectedItemPosition();
+                    int selectedOption2 = i;
 
                     setupChartWithOptions(selectedOption1, selectedOption2, series, workoutDates, workoutMonths, alertDialog, lineChart, summary);
                 }
@@ -784,8 +785,8 @@ public class AddExerciseActivity extends AppCompatActivity {
             graph_time_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    String selectedOption1 = graph_time_spinner_options[i];
-                    String selectedOption2 = graph_value_spinner.getSelectedItem().toString();
+                    int selectedOption1 = i;
+                    int selectedOption2 = graph_value_spinner.getSelectedItemPosition();
 
                     setupChartWithOptions(selectedOption1, selectedOption2, series, workoutDates, workoutMonths, alertDialog, lineChart, summary);
                 }
@@ -798,7 +799,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
 
             // Default option is volume
-            setupLineChart(alertDialog, volumeValues, lineChart, workoutMonths, workoutDates,"kg", false);
+            setupLineChart(alertDialog, volumeValues, lineChart, workoutMonths, workoutDates, getString(R.string.unit_kg), false);
         }
 
         // Exercise Comments
@@ -856,17 +857,19 @@ public class AddExerciseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupChartWithOptions(String selectedTime, String selectedMetric, LinkedHashMap<String, ArrayList<Entry>> series, ArrayList<String> workoutDates, ArrayList<String> workoutMonths, AlertDialog alertDialog, LineChart lineChart, TextView summary){
-        ArrayList<Entry> actualValues = series.get(selectedMetric);
-        String label = "kg";
-        if(selectedMetric.equals("Reps")) label = "reps";
-        else if(selectedMetric.equals("Sets")) label = "sets";
+    // timePos and metricPos index the graph_ranges and graph_metrics string arrays
+    private void setupChartWithOptions(int timePos, int metricPos, ArrayList<ArrayList<Entry>> series, ArrayList<String> workoutDates, ArrayList<String> workoutMonths, AlertDialog alertDialog, LineChart lineChart, TextView summary){
+        ArrayList<Entry> actualValues = series.get(metricPos);
+        String label = getString(R.string.unit_kg);
+        if(metricPos == 2) label = getString(R.string.unit_reps);
+        else if(metricPos == 4) label = getString(R.string.unit_sets);
 
         int index = 0;
-        if(selectedTime.equals("Last Year")) index = getIndexOfLastXMonths(workoutDates, 12);
-        else if(selectedTime.equals("6 months")) index = getIndexOfLastXMonths(workoutDates, 6);
-        else if(selectedTime.equals("3 months")) index = getIndexOfLastXMonths(workoutDates, 3);
-        else if(selectedTime.equals("1 month")) index = getIndexOfLastXMonths(workoutDates, 1);
+        if(timePos == 1) index = getIndexOfLastXMonths(workoutDates, 12);
+        else if(timePos == 2) index = getIndexOfLastXMonths(workoutDates, 6);
+        else if(timePos == 3) index = getIndexOfLastXMonths(workoutDates, 3);
+        else if(timePos == 4) index = getIndexOfLastXMonths(workoutDates, 1);
+        else if(timePos == 5) index = getIndexOfLastXDays(workoutDates, 7);
 
         // No sessions in the selected range
         if(index == -1)
@@ -882,7 +885,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     // Sessions, best, average and change over the selected range
     private void showGraphSummary(TextView summary, ArrayList<Entry> values, String unit) {
         if (values.isEmpty()) {
-            summary.setText("No sessions in this range");
+            summary.setText(getString(R.string.graph_no_sessions));
             return;
         }
         float best = Float.NEGATIVE_INFINITY, sum = 0;
@@ -893,8 +896,14 @@ public class AddExerciseActivity extends AppCompatActivity {
         float first = values.get(0).getY();
         float last = values.get(values.size() - 1).getY();
         String change = first == 0 ? "-" : String.format(Locale.US, "%+.1f%%", (last - first) / first * 100f);
-        summary.setText(String.format(Locale.US, "Sessions: %d   Best: %.1f %s\nAverage: %.1f %s   Latest: %.1f %s   Change: %s",
-                values.size(), best, unit, sum / values.size(), unit, last, unit, change));
+        summary.setText(getString(R.string.graph_summary, values.size(), best, unit, sum / values.size(), unit, last, unit, change));
+    }
+
+    private int getIndexOfLastXDays(ArrayList<String> workoutDates, int days){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -days); // findFirstDateAfter is exclusive
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        return findFirstDateAfter(workoutDates, dateFormat.format(calendar.getTime()));
     }
 
     private int getIndexOfLastXMonths(ArrayList<String> workoutDates, int months){

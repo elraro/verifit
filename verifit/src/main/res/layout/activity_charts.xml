@@ -11,451 +11,258 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
-
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:scrollbars="vertical">
+            android:orientation="vertical">
 
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/range_toggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                app:checkedButton="@+id/range_week"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <Button
+                    android:id="@+id/range_week"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/range_week" />
+
+                <Button
+                    android:id="@+id/range_month"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/range_month" />
+
+                <Button
+                    android:id="@+id/range_year"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/range_year" />
+
+                <Button
+                    android:id="@+id/range_all"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/range_all" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardview_viewpager"
                 style="@style/CardView.Light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginEnd="15dp"
                 android:backgroundTint="@color/custom_row"
-                app:cardCornerRadius="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:cardCornerRadius="5dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/non_expandable_layout"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible">
-
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/workouts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
-                        android:text="Workouts"
+                        android:text="@string/chart_volume_title"
                         android:textColor="@color/core_black"
-                        android:textSize="26sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textSize="24sp" />
 
                     <TextView
-                        android:id="@+id/description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:text="Number of workouts performed per year"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/workouts" />
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/chart_volume_desc"
+                        android:textColor="@color/core_grey_55" />
 
                     <View
-                        android:id="@+id/blue_line"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="30dp"
-                        android:background="@color/colorPrimary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/workouts" />
+                        android:background="@color/colorPrimary" />
 
-
-                    <ImageButton
-                        android:id="@+id/more_button1"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@android:color/transparent"
-                        android:clickable="true"
-                        android:tint="@color/colorAccent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_more_vert_24px" />
-
-
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/pieChart"
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChartVolume"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:layout_marginTop="10dp"
-                        android:visibility="visible"
-                        app:layout_constraintTop_toBottomOf="@+id/blue_line">
+                        android:layout_height="240dp"
+                        android:layout_margin="8dp" />
 
-                    </com.github.mikephil.charting.charts.PieChart>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardview_diary3"
                 style="@style/CardView.Light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
                 android:backgroundTint="@color/custom_row"
                 app:cardCornerRadius="5dp">
 
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/non_expandable_layout3"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/pieChartBodyparts"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:visibility="visible"
-                        app:layout_constraintTop_toBottomOf="@+id/view3">
-
-                    </com.github.mikephil.charting.charts.PieChart>
-
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/exercises2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
-                        android:text="Bodypart Breakdown"
+                        android:text="@string/chart_workouts_title"
                         android:textColor="@color/core_black"
-                        android:textSize="26sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textSize="24sp" />
 
                     <TextView
-                        android:id="@+id/description3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:text="See which bodyparts you focus on the most"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/exercises2" />
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/chart_workouts_desc"
+                        android:textColor="@color/core_grey_55" />
 
                     <View
-                        android:id="@+id/view3"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="30dp"
-                        android:background="@color/colorPrimary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/exercises2" />
+                        android:background="@color/colorPrimary" />
 
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChartWorkouts"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:layout_margin="8dp" />
 
-                    <ImageButton
-                        android:id="@+id/more_button3"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@android:color/transparent"
-                        android:clickable="true"
-                        android:tint="@color/colorAccent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_more_vert_24px" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardview_diary4"
                 style="@style/CardView.Light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
                 android:backgroundTint="@color/custom_row"
                 app:cardCornerRadius="5dp">
 
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/non_expandable_layout4"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/pieChartExercises"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:visibility="visible"
-                        app:layout_constraintTop_toBottomOf="@+id/view4">
-
-                    </com.github.mikephil.charting.charts.PieChart>
-
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/exercises3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
-                        android:text="Exercise Breakdown"
+                        android:text="@string/chart_bodyparts_title"
                         android:textColor="@color/core_black"
-                        android:textSize="26sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textSize="24sp" />
 
                     <TextView
-                        android:id="@+id/description4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:text="See which exercises you focus on the most"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/exercises3" />
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/chart_bodyparts_desc"
+                        android:textColor="@color/core_grey_55" />
 
                     <View
-                        android:id="@+id/view4"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="30dp"
-                        android:background="@color/colorPrimary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/exercises3" />
+                        android:background="@color/colorPrimary" />
 
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChartBodyparts"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_margin="8dp" />
 
-                    <ImageButton
-                        android:id="@+id/more_button4"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@android:color/transparent"
-                        android:clickable="true"
-                        android:tint="@color/colorAccent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_more_vert_24px" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardview_diary2"
                 style="@style/CardView.Light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
                 android:backgroundTint="@color/custom_row"
-                app:cardCornerRadius="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cardview_viewpager">
+                app:cardCornerRadius="5dp">
 
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/non_expandable_layout2"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/barChart"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:visibility="visible"
-                        app:layout_constraintTop_toBottomOf="@+id/view2">
-
-                    </com.github.mikephil.charting.charts.BarChart>
-
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/exercises"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
-                        android:text="Daily Volume"
+                        android:text="@string/chart_exercises_title"
                         android:textColor="@color/core_black"
-                        android:textSize="26sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textSize="24sp" />
 
                     <TextView
-                        android:id="@+id/description2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:text="Total volume performed in each workout"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/exercises" />
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/chart_exercises_desc"
+                        android:textColor="@color/core_grey_55" />
 
                     <View
-                        android:id="@+id/view2"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="30dp"
-                        android:background="@color/colorPrimary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/exercises" />
+                        android:background="@color/colorPrimary" />
 
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChartExercises"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_margin="8dp" />
 
-                    <ImageButton
-                        android:id="@+id/more_button2"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@android:color/transparent"
-                        android:clickable="true"
-                        android:tint="@color/colorAccent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_more_vert_24px" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardview_padding"
-                style="@style/CardView.Light"
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
-                android:backgroundTint="@color/custom_row"
-                android:visibility="invisible"
-                app:cardCornerRadius="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cardview_viewpager">
-
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/non_expandable_layout5"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp">
-
-
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/barChart1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:visibility="visible"
-                        app:layout_constraintTop_toBottomOf="@+id/view5">
-
-                    </com.github.mikephil.charting.charts.BarChart>
-
-
-                    <TextView
-                        android:id="@+id/exercises1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Daily Volume"
-                        android:textColor="@color/core_black"
-                        android:textSize="26sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/description5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:text="Total volume performed in each workout"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/exercises1" />
-
-                    <View
-                        android:id="@+id/view5"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="30dp"
-                        android:background="@color/colorPrimary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/exercises1" />
-
-
-                    <ImageButton
-                        android:id="@+id/more_button5"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@android:color/transparent"
-                        android:clickable="true"
-                        android:tint="@color/colorAccent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_more_vert_24px" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
+                android:layout_height="15dp" />
 
         </LinearLayout>
-
-
     </ScrollView>
-
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         app:backgroundTint="@color/cardview_light_background"
         app:elevation="0dp"
         app:itemHorizontalTranslationEnabled="false"
@@ -465,8 +272,5 @@
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

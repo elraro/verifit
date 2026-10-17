@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,32 +12,48 @@ import android.view.View;
 import android.widget.ScrollView;
 
 import com.example.verifit.R;
-import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.PieChart;
+import com.example.verifit.model.WorkoutDay;
+import com.example.verifit.model.WorkoutSet;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ChartsActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+
+    private static final int RANGE_WEEK = 0;
+    private static final int RANGE_MONTH = 1;
+    private static final int RANGE_YEAR = 2;
+    private static final int RANGE_ALL = 3;
+
+    // Line colours that stay readable on both the light and the dark theme
+    private static final int[] LINE_COLORS = {
+            0xFF3D9EE0, 0xFFEF5350, 0xFF66BB6A, 0xFFFFA726, 0xFFAB47BC, 0xFF26C6DA
+    };
+
+    private static final int MAX_SERIES = 5;
+
+    private int range = RANGE_WEEK;
+
+    // Storage and parsing always use the US locale so stored dates are never affected by the device language
+    private final SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private final SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy-MM", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,10 +61,18 @@ public class ChartsActivity extends AppCompatActivity implements BottomNavigatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
 
-        // Basic Initialization
+        MaterialButtonToggleGroup toggleGroup = findViewById(R.id.range_toggle);
+        toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (!isChecked) return;
+            if (checkedId == R.id.range_week) range = RANGE_WEEK;
+            else if (checkedId == R.id.range_month) range = RANGE_MONTH;
+            else if (checkedId == R.id.range_year) range = RANGE_YEAR;
+            else range = RANGE_ALL;
+            drawCharts();
+        });
+
         onCreateStuff();
     }
-
 
     @Override
     protected void onRestart()
@@ -67,351 +90,195 @@ public class ChartsActivity extends AppCompatActivity implements BottomNavigatio
 
         ScrollView scrollView = findViewById(R.id.scrollView);
         if(MainActivity.dataStorage.getWorkoutDays().size() == 0){
-
             scrollView.setVisibility(View.GONE);
         }
         else
         {
             scrollView.setVisibility(View.VISIBLE);
+            drawCharts();
         }
-
-        barChartVolumes();
-
-        pieChartWorkouts();
-
-        pieChartBodyparts();
-
-        piChartExercises();
     }
 
-    public void barChartVolumes()
+    // Builds the ordered list of bucket keys (days or months) for the selected range, oldest first
+    private List<String> buildBuckets(boolean monthly)
     {
-        // Bar Chart Example
-        BarChart barChart = findViewById(R.id.barChart);
-        // Interaction Customization
+        Calendar cal = Calendar.getInstance();
+        Calendar start = Calendar.getInstance();
 
-        // Add Data pairs in List
-        ArrayList<BarEntry> workouts = new ArrayList<BarEntry>();
-
-        for(int i = 0; i < MainActivity.dataStorage.getWorkoutDays().size(); i++)
-        {
-            workouts.add(new BarEntry(i,MainActivity.dataStorage.getWorkoutDays().get(i).getDayVolume().floatValue()));
-        }
-
-        // Add Date Labels to workout
-        ArrayList<String> workoutDates = new ArrayList<String>();
-
-        // Make it invisible because otherwise it looks like shit
-        if(workouts.size() == 0)
-        {
-            barChart.setVisibility(View.INVISIBLE);
-        }
-
-
-        // Remove Legend
-        Legend l = barChart.getLegend();
-        l.setEnabled(false);
-
-
-        // Show last X workouts only
-        int last_workouts = 5;
-        int counter = 0;
-        ArrayList<BarEntry> workouts_pruned = new ArrayList<BarEntry>();
-
-
-        for(int i = 0; i < workouts.size(); i++)
-        {
-            counter++;
-            if(counter > workouts.size()-last_workouts)
-            {
-                workouts_pruned.add(workouts.get(i));
+        if (range == RANGE_WEEK) {
+            start.add(Calendar.DAY_OF_YEAR, -6);
+        } else if (range == RANGE_MONTH) {
+            start.add(Calendar.DAY_OF_YEAR, -29);
+        } else if (range == RANGE_YEAR) {
+            start.add(Calendar.MONTH, -11);
+        } else {
+            // Start at the first recorded workout
+            Date first = null;
+            for (WorkoutDay day : MainActivity.dataStorage.getWorkoutDays()) {
+                try {
+                    Date d = dayFormat.parse(day.getDate());
+                    if (first == null || d.before(first)) first = d;
+                } catch (ParseException ignored) { }
             }
+            if (first != null) start.setTime(first);
         }
 
-        BarDataSet barDataSet = new BarDataSet(workouts_pruned,"Workouts");
-        barDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        // Months are compared at the first day so every month appears exactly once
+        if (monthly) {
+            start.set(Calendar.DAY_OF_MONTH, 1);
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+        }
 
-        barChart.getXAxis().setTextColor(getColor(R.color.core_black));
-        barChart.getAxisLeft().setTextColor(getColor(R.color.core_black));
-        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(workoutDates));
-
-        // Profit
-        BarData barData = new BarData(barDataSet);
-        barChart.setFitBars(true);
-        barChart.setData(barData);
-        barChart.getDescription().setText("");
-        barChart.invalidate();
-        barChart.animateY(500);
-        barChart.setScaleMinima(1f, 1f);
+        List<String> keys = new ArrayList<>();
+        while (!start.after(cal)) {
+            keys.add(monthly ? monthFormat.format(start.getTime()) : dayFormat.format(start.getTime()));
+            start.add(monthly ? Calendar.MONTH : Calendar.DAY_OF_YEAR, 1);
+        }
+        return keys;
     }
 
-    public void pieChartWorkouts()
+    private String bucketKey(String date, boolean monthly)
     {
-        // Find Workout Years
-        HashSet<String> Years = new HashSet<>();
-
-        for(int i = 0; i < MainActivity.dataStorage.getWorkoutDays().size(); i++)
-        {
-            String date = MainActivity.dataStorage.getWorkoutDays().get(i).getDate();
-            String year = date.substring(0,4);
-            Years.add(year);
-        }
-
-        // Workout years and number of workouts per year
-        HashMap<String,Integer> Years_Workouts = new HashMap<String, Integer>();
-
-        // Iterate set years
-        Years.forEach(year ->
-        {
-            Years_Workouts.put(year,0);
-        });
-
-        // Calculate number of workouts per year
-        for(int i = 0; i < MainActivity.dataStorage.getWorkoutDays().size(); i++)
-        {
-            String date = MainActivity.dataStorage.getWorkoutDays().get(i).getDate();
-            String year = date.substring(0,4);
-
-            int workouts = Years_Workouts.get(year);
-            Years_Workouts.put(year,workouts+1);
-        }
-
-        // Initialize Pie Chart
-        PieChart pieChart = findViewById(R.id.pieChart);
-
-        pieChart.setUsePercentValues(false);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setExtraOffsets(5,10,5,5);
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
-        pieChart.setDrawHoleEnabled(false);
-        pieChart.setHoleColor(getColor(R.color.core_white));
-        pieChart.setTransparentCircleRadius(60f);
-
-        ArrayList<PieEntry> yValues = new ArrayList<>();
-
-        for (Map.Entry<String, Integer> stringIntegerEntry : Years_Workouts.entrySet())
-        {
-            Map.Entry pair = (Map.Entry) stringIntegerEntry;
-
-            Integer workouts = (Integer) pair.getValue();
-            String year = (String) pair.getKey();
-
-            yValues.add(new PieEntry(workouts,year));
-        }
-
-        PieDataSet pieDataSet = new PieDataSet(yValues,"");
-
-        pieDataSet.setSliceSpace(3f);
-        pieDataSet.setSelectionShift(5f);
-        pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-
-        PieData data = new PieData(pieDataSet);
-        data.setValueTextSize(15f);
-        data.setValueTextColor(Color.WHITE);
-
-        pieChart.animateY(1000, Easing.EaseInOutCubic);
-        pieChart.setNoDataText("No Workouts");
-        pieChart.getLegend().setEnabled(false);
-        pieChart.setData(data);
+        return monthly ? date.substring(0, 7) : date;
     }
 
-    public void pieChartBodyparts()
+    private String[] bucketLabels(List<String> keys, boolean monthly)
     {
-        // Find Workout Years
-        HashSet<String> Bodyparts = new HashSet<>();
-
-        for(int i = 0; i < MainActivity.dataStorage.getWorkoutDays().size(); i++)
-        {
-            for(int j = 0; j < MainActivity.dataStorage.getWorkoutDays().get(i).getSets().size(); j++)
-            {
-                String Exercise = MainActivity.dataStorage.getWorkoutDays().get(i).getSets().get(j).getCategory();
-                Bodyparts.add(Exercise);
+        SimpleDateFormat in = monthly ? monthFormat : dayFormat;
+        SimpleDateFormat out = new SimpleDateFormat(monthly ? "MMM yy" : "d MMM", Locale.getDefault());
+        String[] labels = new String[keys.size()];
+        for (int i = 0; i < keys.size(); i++) {
+            try {
+                labels[i] = out.format(in.parse(keys.get(i)));
+            } catch (ParseException e) {
+                labels[i] = keys.get(i);
             }
         }
-
-        // Workout years and number of workouts per year
-        HashMap<String,Integer> Number_Bodyparts = new HashMap<String, Integer>();
-
-        // Iterate set years
-        Bodyparts.forEach(exercise ->
-        {
-            Number_Bodyparts.put(exercise,0);
-        });
-
-        // Calculate number of workouts per year
-        for(int i = 0; i < MainActivity.dataStorage.getWorkoutDays().size(); i++)
-        {
-            for(int j = 0; j < MainActivity.dataStorage.getWorkoutDays().get(i).getSets().size(); j++)
-            {
-                String Exercise = MainActivity.dataStorage.getWorkoutDays().get(i).getSets().get(j).getCategory();
-
-                int Exercise_Workouts = Number_Bodyparts.get(Exercise);
-                Number_Bodyparts.put(Exercise,Exercise_Workouts+1);
-            }
-        }
-
-
-        // Initialize Pie Chart
-        PieChart pieChart = findViewById(R.id.pieChartBodyparts);
-
-        pieChart.setUsePercentValues(false);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setExtraOffsets(5,10,5,5);
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
-        pieChart.setDrawHoleEnabled(false);
-        pieChart.setHoleColor(getColor(R.color.core_white));
-        pieChart.setTransparentCircleRadius(60f);
-
-        ArrayList<PieEntry> yValues = new ArrayList<>();
-
-        for (Map.Entry<String, Integer> stringIntegerEntry : Number_Bodyparts.entrySet())
-        {
-            Map.Entry pair = (Map.Entry) stringIntegerEntry;
-
-            Integer workouts = (Integer) pair.getValue();
-            String year = (String) pair.getKey();
-
-            yValues.add(new PieEntry(workouts,year));
-        }
-
-        PieDataSet pieDataSet = new PieDataSet(yValues,"");
-
-        pieDataSet.setSliceSpace(3f);
-        pieDataSet.setSelectionShift(5f);
-        pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-
-        PieData data = new PieData(pieDataSet);
-        data.setValueTextSize(15f);
-        data.setValueTextColor(Color.WHITE);
-
-        pieChart.getLegend().setEnabled(false);
-        pieChart.animateY(1000, Easing.EaseInOutCubic);
-        pieChart.setNoDataText("No Workouts");
-        pieChart.setData(data);
-
+        return labels;
     }
 
-    public void piChartExercises()
+    private void drawCharts()
     {
-        // Find Workout Years
-        HashSet<String> Exercises = new HashSet<>();
+        boolean monthly = range == RANGE_YEAR || range == RANGE_ALL;
+        List<String> keys = buildBuckets(monthly);
+        Map<String, Integer> index = new HashMap<>();
+        for (int i = 0; i < keys.size(); i++) index.put(keys.get(i), i);
 
-        for(int i = 0; i < MainActivity.dataStorage.getWorkoutDays().size(); i++)
-        {
-            for(int j = 0; j < MainActivity.dataStorage.getWorkoutDays().get(i).getSets().size(); j++)
-            {
-                String Exercise = MainActivity.dataStorage.getWorkoutDays().get(i).getSets().get(j).getExerciseName();
-                Exercises.add(Exercise);
+        int n = keys.size();
+        float[] volume = new float[n];
+        float[] workouts = new float[n];
+        Map<String, float[]> bodyparts = new LinkedHashMap<>();
+        Map<String, float[]> exercises = new LinkedHashMap<>();
+
+        for (WorkoutDay day : MainActivity.dataStorage.getWorkoutDays()) {
+            Integer i = index.get(bucketKey(day.getDate(), monthly));
+            if (i == null) continue;
+
+            volume[i] += day.getDayVolume().floatValue();
+            workouts[i] += 1;
+
+            for (WorkoutSet set : day.getSets()) {
+                if (!bodyparts.containsKey(set.getCategory())) bodyparts.put(set.getCategory(), new float[n]);
+                bodyparts.get(set.getCategory())[i] += 1;
+
+                if (!exercises.containsKey(set.getExerciseName())) exercises.put(set.getExerciseName(), new float[n]);
+                exercises.get(set.getExerciseName())[i] += 1;
             }
         }
 
-        // Workout years and number of workouts per year
-        HashMap<String,Integer> Number_Exercises = new HashMap<String, Integer>();
+        String[] labels = bucketLabels(keys, monthly);
 
-        // Iterate set years
-        Exercises.forEach(exercise ->
-        {
-            Number_Exercises.put(exercise,0);
-        });
+        Map<String, float[]> volumeSeries = new LinkedHashMap<>();
+        volumeSeries.put(getString(R.string.series_volume), volume);
+        Map<String, float[]> workoutSeries = new LinkedHashMap<>();
+        workoutSeries.put(getString(R.string.series_workouts), workouts);
 
-        // Calculate number of workouts per year
-        for(int i = 0; i < MainActivity.dataStorage.getWorkoutDays().size(); i++)
-        {
-            for(int j = 0; j < MainActivity.dataStorage.getWorkoutDays().get(i).getSets().size(); j++)
-            {
-                String Exercise = MainActivity.dataStorage.getWorkoutDays().get(i).getSets().get(j).getExerciseName();
-
-                //System.out.println(Exercise);
-
-                int Exercise_Workouts = Number_Exercises.get(Exercise);
-                Number_Exercises.put(Exercise,Exercise_Workouts+1);
-            }
-        }
-
-
-        HashMap<String,Integer> Number_Exercises_Sorted = sortValues(Number_Exercises);
-
-
-        System.out.println(Number_Exercises_Sorted.size());
-
-        HashMap<String,Integer> Number_Exercises_Sorted_Pruned = new HashMap<String, Integer>();;
-
-        int top_exercises = 5;
-        int counter = 0;
-
-        for (Map.Entry<String, Integer> entry : Number_Exercises_Sorted.entrySet()) {
-
-            counter++;
-            if(counter > Number_Exercises_Sorted.size()-top_exercises)
-            {
-                Number_Exercises_Sorted_Pruned.put(entry.getKey(),entry.getValue());
-                System.out.println(entry.getKey() + " = " + entry.getValue());
-            }
-
-        }
-
-
-        // Initialize Pie Chart
-        PieChart pieChart = findViewById(R.id.pieChartExercises);
-
-        pieChart.setUsePercentValues(false);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setExtraOffsets(5,10,5,5);
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
-        pieChart.setDrawHoleEnabled(false);
-        pieChart.setHoleColor(getColor(R.color.core_white));
-        pieChart.setTransparentCircleRadius(60f);
-
-        ArrayList<PieEntry> yValues = new ArrayList<>();
-
-        for (Map.Entry<String, Integer> stringIntegerEntry : Number_Exercises_Sorted_Pruned.entrySet())
-        {
-            Map.Entry pair = (Map.Entry) stringIntegerEntry;
-
-            Integer workouts = (Integer) pair.getValue();
-            String year = (String) pair.getKey();
-
-            yValues.add(new PieEntry(workouts,year));
-        }
-
-        PieDataSet pieDataSet = new PieDataSet(yValues,"");
-
-        pieDataSet.setSliceSpace(3f);
-        pieDataSet.setSelectionShift(5f);
-        pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-
-        PieData data = new PieData(pieDataSet);
-        data.setValueTextSize(15f);
-        data.setValueTextColor(Color.WHITE);
-
-        pieChart.getLegend().setEnabled(false);
-        pieChart.animateY(1000, Easing.EaseInOutCubic);
-        pieChart.setNoDataText("No Workouts");
-        pieChart.setData(data);
-
+        drawLineChart((LineChart) findViewById(R.id.lineChartVolume), volumeSeries, labels, false);
+        drawLineChart((LineChart) findViewById(R.id.lineChartWorkouts), workoutSeries, labels, false);
+        drawLineChart((LineChart) findViewById(R.id.lineChartBodyparts), topSeries(bodyparts), labels, true);
+        drawLineChart((LineChart) findViewById(R.id.lineChartExercises), topSeries(exercises), labels, true);
     }
 
-
-
-    private static HashMap sortValues(HashMap map)
+    // Keeps only the series with the most total sets so the legend stays readable
+    private Map<String, float[]> topSeries(Map<String, float[]> all)
     {
-        List list = new LinkedList(map.entrySet());
-        //Custom Comparator
-        Collections.sort(list, new Comparator()
-        {
-            public int compare(Object o1, Object o2)
-            {
-                return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
-            }
-        });
-        //copying the sorted list in HashMap to preserve the iteration order
-        HashMap sortedHashMap = new LinkedHashMap();
-        for (Iterator it = list.iterator(); it.hasNext();)
-        {
-            Map.Entry entry = (Map.Entry) it.next();
-            sortedHashMap.put(entry.getKey(), entry.getValue());
+        List<Map.Entry<String, float[]>> entries = new ArrayList<>(all.entrySet());
+        entries.sort((a, b) -> Float.compare(sum(b.getValue()), sum(a.getValue())));
+        Map<String, float[]> top = new LinkedHashMap<>();
+        for (int i = 0; i < Math.min(MAX_SERIES, entries.size()); i++) {
+            top.put(entries.get(i).getKey(), entries.get(i).getValue());
         }
-        return sortedHashMap;
+        return top;
+    }
+
+    private float sum(float[] values)
+    {
+        float total = 0;
+        for (float v : values) total += v;
+        return total;
+    }
+
+    private void drawLineChart(LineChart chart, Map<String, float[]> series, String[] labels, boolean showLegend)
+    {
+        int textColor = getColor(R.color.core_black);
+        int gridColor = getColor(R.color.core_grey_20);
+
+        LineData data = new LineData();
+        int colorIndex = 0;
+        for (Map.Entry<String, float[]> s : series.entrySet()) {
+            ArrayList<Entry> entries = new ArrayList<>();
+            for (int i = 0; i < s.getValue().length; i++) {
+                entries.add(new Entry(i, s.getValue()[i]));
+            }
+            LineDataSet set = new LineDataSet(entries, s.getKey());
+            int color = LINE_COLORS[colorIndex++ % LINE_COLORS.length];
+            set.setColor(color);
+            set.setCircleColor(color);
+            set.setCircleHoleColor(color);
+            set.setLineWidth(2.5f);
+            set.setCircleRadius(labels.length > 40 ? 0f : 3f);
+            set.setDrawCircles(labels.length <= 40);
+            set.setDrawValues(false);
+            set.setMode(LineDataSet.Mode.LINEAR);
+            data.addDataSet(set);
+        }
+
+        chart.clear();
+        chart.setData(data);
+        chart.getDescription().setEnabled(false);
+        chart.setDrawGridBackground(false);
+        chart.setScaleYEnabled(false);
+        chart.setPinchZoom(false);
+        chart.setNoDataTextColor(textColor);
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setTextColor(textColor);
+        xAxis.setAxisLineColor(gridColor);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setLabelCount(Math.min(labels.length, 6), false);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setAxisMinimum(-0.25f);
+        xAxis.setAxisMaximum(labels.length - 1 + 0.25f);
+
+        chart.getAxisRight().setEnabled(false);
+        chart.getAxisLeft().setTextColor(textColor);
+        chart.getAxisLeft().setGridColor(gridColor);
+        chart.getAxisLeft().setAxisLineColor(gridColor);
+        chart.getAxisLeft().setAxisMinimum(0f);
+        chart.getAxisLeft().setDrawZeroLine(false);
+
+        Legend legend = chart.getLegend();
+        legend.setEnabled(showLegend);
+        legend.setTextColor(textColor);
+        legend.setWordWrapEnabled(true);
+        legend.setForm(Legend.LegendForm.LINE);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+
+        chart.animateX(400);
+        chart.invalidate();
     }
 
     // Navigates to given activity based on the selected menu item

@@ -17,6 +17,45 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
+    <!-- Charts -->
+    <string name="range_week">7 days</string>
+    <string name="range_month">1 month</string>
+    <string name="range_year">1 year</string>
+    <string name="range_all">All time</string>
+    <string name="chart_volume_title">Volume</string>
+    <string name="chart_volume_desc">Total volume lifted per period</string>
+    <string name="chart_workouts_title">Workouts</string>
+    <string name="chart_workouts_desc">Number of workouts per period</string>
+    <string name="chart_bodyparts_title">Body parts</string>
+    <string name="chart_bodyparts_desc">Sets per body part over time</string>
+    <string name="chart_exercises_title">Exercises</string>
+    <string name="chart_exercises_desc">Sets of your most trained exercises</string>
+    <string name="series_volume">Volume (kg)</string>
+    <string name="series_workouts">Workouts</string>
+
+    <!-- Exercise graph -->
+    <string name="unit_kg">kg</string>
+    <string name="unit_reps">reps</string>
+    <string name="unit_sets">sets</string>
+    <string name="graph_no_sessions">No sessions in this range</string>
+    <string name="graph_summary">Sessions: %1$d   Best: %2$.1f %3$s\nAverage: %4$.1f %5$s   Latest: %6$.1f %7$s   Change: %8$s</string>
+    <string-array name="graph_metrics">
+        <item>Volume</item>
+        <item>Weight</item>
+        <item>Reps</item>
+        <item>Est. 1RM</item>
+        <item>Sets</item>
+        <item>Avg weight</item>
+    </string-array>
+    <string-array name="graph_ranges">
+        <item>All time</item>
+        <item>1 year</item>
+        <item>6 months</item>
+        <item>3 months</item>
+        <item>1 month</item>
+        <item>7 days</item>
+    </string-array>
+
     <string-array name="Categories">
         <item>Chest</item>
         <item>Back</item>
