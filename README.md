@@ -29,8 +29,9 @@ Verifit replaces the pencil-and-paper logbook. Its UI is inspired by FitNotes an
 |---|---|
 | **Tracking** | Log sets, reps and weight; create custom exercises; add exercise comments; edit or delete anything |
 | **Stats** | Volume, actual 1RM, estimated 1RM, personal records, sets per week and more |
-| **Per-exercise graphs** | Pick a metric (volume, weight, reps, estimated 1RM, sets, average weight) and a time range, and see best, average, latest and % change |
-| **Charts** | Workouts per year, body-part and exercise distribution |
+| **Per-exercise graphs** | Pick a metric (volume, weight, reps, estimated 1RM, sets, average weight) and a time range (7 days to all time), and see best, average, latest and % change |
+| **Charts** | Line charts for volume, workouts, sets per body part and your most trained exercises, over 7 days, 1 month, 1 year or all time |
+| **Languages** | English, Español, Français, Deutsch, Italiano and Português, following your device language |
 | **Dark mode** | Follows the system theme, or force light or dark in Settings |
 | **Backups** | Import and export from phone storage or a WebDAV server, with automatic WebDAV backups |
 | **Extras** | Rest timer and plate calculator |
@@ -46,11 +47,12 @@ Verifit replaces the pencil-and-paper logbook. Its UI is inspired by FitNotes an
   <img width="200" src="metadata/screenshots/dark-charts.png">
   <img width="200" src="metadata/screenshots/dark-exercise-graph.png">
   <img width="200" src="metadata/screenshots/dark-settings.png">
+  <img width="200" src="metadata/screenshots/spanish-charts.png">
 </p>
 
 ## Install
 
-Grab the latest APK from the [Releases](https://github.com/elraro/verifit/releases) page, or build it yourself (see below).
+Grab `verifit-release.apk` from the latest [Release](https://github.com/elraro/verifit/releases) and install it. Releases are signed with a fixed key, so you can update in place from one version to the next.
 
 ## Build from source
 
@@ -65,7 +67,11 @@ echo "sdk.dir=/path/to/Android/Sdk" > local.properties
 
 The APK is written to `verifit/build/outputs/apk/debug/`.
 
-Pushing a tag such as `v1.0.15` makes the GitHub Actions workflow build the app and publish a release.
+### Releasing
+
+Pushing a tag such as `v1.3` makes the GitHub Actions workflow build, sign and publish a release. Signing needs four repository secrets (Settings → Secrets and variables → Actions): `KEYSTORE_BASE64` (the keystore, base64-encoded), `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`. Tagged builds fail when they are missing, so an unsigned or differently signed APK is never published. Keep the keystore safe: without it, installed apps can no longer be updated.
+
+To sign a local build, export `KEYSTORE_FILE`, `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD` and run `./gradlew :verifit:assembleRelease`.
 
 ## Set up a WebDAV server
 

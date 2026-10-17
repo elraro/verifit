@@ -37,6 +37,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLines="1"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:textAllCaps="false"
+                    android:textSize="13sp"
                     android:text="@string/range_week" />
 
                 <Button
@@ -45,6 +50,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLines="1"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:textAllCaps="false"
+                    android:textSize="13sp"
                     android:text="@string/range_month" />
 
                 <Button
@@ -53,6 +63,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLines="1"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:textAllCaps="false"
+                    android:textSize="13sp"
                     android:text="@string/range_year" />
 
                 <Button
@@ -61,6 +76,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLines="1"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:textAllCaps="false"
+                    android:textSize="13sp"
                     android:text="@string/range_all" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
